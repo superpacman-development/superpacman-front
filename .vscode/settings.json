@@ -1,0 +1,13 @@
+{
+  // 파일을 저장할 때마다
+  "editor.codeActionsOnSave": {
+    // `eslint` 규칙에 따라 자동으로 코드를 수정
+    "source.fixAll.eslint": true,
+    // 사용하지 않는 import 구문 제거
+    "source.organizeImports": true
+  },
+  // `prettier`를 기본 포맷터로 지정
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // 파일을 저장할 때마다 포매팅 실행
+  "editor.formatOnSave": true
+}
