@@ -1,6 +1,6 @@
 'use client';
 
-import { signup } from '@/api/auth';
+import { signup } from '@/api/auth/signup';
 import { Button } from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input/Input';
 import { HStack, VStack } from '@/components/common/Stack/Stack';
@@ -8,7 +8,7 @@ import { cx } from '@/utils/cx';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-import { FocusEventHandler, ReactNode, useState } from 'react';
+import { FocusEventHandler, InputHTMLAttributes, forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import CheckCircleIcon from '../../../public/assets/check-circle.svg';
@@ -21,31 +21,41 @@ const terms = [
   { label: '이메일 뉴스 수신 동의 (선택)', handleClick: () => alert('이메일 뉴스 수신 동의 (선택)') },
 ];
 
-const schema = z.object({
-  email: z.string().email('이메일 형식에 맞지 않습니다.'),
-  password: z.string(),
-  name: z.string(),
-  businessName: z.string(),
-  businessNumber: z.string(),
-  licenseNumber: z.string(),
+const NonNullableString = z.string().min(1);
+
+const SignupSchema = z.object({
+  email: NonNullableString.email('이메일 형식에 맞지 않습니다.'),
+  password: NonNullableString,
+  name: NonNullableString,
+  businessName: NonNullableString,
+  businessNumber: NonNullableString,
+  licenseNumber: NonNullableString,
+  전자상거래약관_동의여부: z.boolean(),
+  개인정보처리방침약관_동의여부: z.boolean(),
+  이메일뉴스수신_동의여부: z.boolean().optional(),
 });
 
-export type SignUpFormValues = z.infer<typeof schema>;
+export type SignupSchemaType = z.infer<typeof SignupSchema>;
 
 export const SignupForm = () => {
   const router = useRouter();
-  const [checked, setChecked] = useState<boolean[]>(Array(terms.length).fill(false));
   const {
     register,
     handleSubmit,
     trigger,
+    setValue,
     setError,
     formState: { errors, dirtyFields, isValid },
     control,
-  } = useForm<SignUpFormValues>({
+    watch,
+  } = useForm<SignupSchemaType>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
-    resolver: zodResolver(schema),
+    resolver: async (...values) => {
+      console.log(values);
+      console.log(await zodResolver(SignupSchema)(...values));
+      return zodResolver(SignupSchema)(...values);
+    },
   });
 
   const checkEmailExist = async (email: string) => {
@@ -64,15 +74,9 @@ export const SignupForm = () => {
     }
   };
 
-  const handleChangeChecked = (index: number) => () => {
-    setChecked((checked) => {
-      let newChecked = [...checked];
-      newChecked[index] = !checked[index];
-      return newChecked;
-    });
-  };
-
   const idErrorMessage = dirtyFields.email ? errors.email?.message : undefined;
+  const allChecked =
+    watch('전자상거래약관_동의여부') && watch('개인정보처리방침약관_동의여부') && watch('이메일뉴스수신_동의여부');
 
   return (
     <form
@@ -131,14 +135,13 @@ export const SignupForm = () => {
           type="button"
           className={cx(
             'rounded-3 border border-solid border-darkGray-30 p-8',
-            checked.every((v) => v) ? 'border-[#0000000F] bg-peaGreen-50 text-white' : 'bg-white text-darkGray-40',
+            allChecked ? 'border-[#0000000F] bg-peaGreen-50 text-white' : 'bg-white text-darkGray-40',
           )}
-          onClick={() =>
-            setChecked((checked) => {
-              const allChecked = checked.every((v) => v);
-              return checked.map((_) => !allChecked);
-            })
-          }
+          onClick={() => {
+            setValue('전자상거래약관_동의여부', !allChecked);
+            setValue('개인정보처리방침약관_동의여부', !allChecked);
+            setValue('이메일뉴스수신_동의여부', !allChecked);
+          }}
         >
           <HStack className="items-center gap-4">
             <CheckCircleIcon />
@@ -147,16 +150,30 @@ export const SignupForm = () => {
         </button>
 
         <VStack className="gap-8">
-          {terms.map(({ label, handleClick }, index) => (
-            <TermsAgreeToggle
-              key={label}
-              checked={checked[index]}
-              handleChange={handleChangeChecked(index)}
-              handleClick={handleClick}
-            >
-              {label}
-            </TermsAgreeToggle>
-          ))}
+          <TermsAgreeToggle
+            label="전자상거래 약관 동의"
+            {...register('전자상거래약관_동의여부')}
+            checked={watch('전자상거래약관_동의여부')}
+            onChange={(e) => {
+              setValue('전자상거래약관_동의여부', e.target.checked);
+            }}
+          />
+          <TermsAgreeToggle
+            label="개인정보처리방침 약관 동의"
+            {...register('개인정보처리방침약관_동의여부')}
+            checked={watch('개인정보처리방침약관_동의여부')}
+            onChange={(e) => {
+              setValue('개인정보처리방침약관_동의여부', e.target.checked);
+            }}
+          />
+          <TermsAgreeToggle
+            label="이메일 뉴스 수신 동의(선택)"
+            {...register('이메일뉴스수신_동의여부')}
+            checked={watch('이메일뉴스수신_동의여부')}
+            onChange={(e) => {
+              setValue('이메일뉴스수신_동의여부', e.target.checked);
+            }}
+          />
         </VStack>
       </VStack>
 
@@ -167,24 +184,19 @@ export const SignupForm = () => {
   );
 };
 
-const TermsAgreeToggle = (props: {
-  checked: boolean;
-  handleChange: () => void;
-  children: ReactNode;
-  handleClick?: () => void;
-}) => {
-  return (
-    <HStack className="items-start">
-      <HStack
-        onClick={props.handleChange}
-        className={cx('gap-4 hover:cursor-pointer', props.checked ? 'text-peaGreen-50' : 'text-darkGray-40')}
-      >
-        <CheckIcon />
-        <span>{props.children}</span>
+const TermsAgreeToggle = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLInputElement> & { label: string }>(
+  function TermsAgreeToggle(props, ref) {
+    return (
+      <HStack>
+        <label className="hstack items-start">
+          <input type="checkbox" className="hidden" ref={ref} {...props} />
+          <HStack className={cx('gap-4 hover:cursor-pointer', props.checked ? 'text-peaGreen-50' : 'text-darkGray-40')}>
+            <CheckIcon />
+            <span>{props.label}</span>
+          </HStack>
+        </label>
+        <span className="ml-auto text-darkGray-40">더보기</span>
       </HStack>
-      <span className="ml-auto text-darkGray-40" onClick={props.handleClick}>
-        더보기
-      </span>
-    </HStack>
-  );
-};
+    );
+  },
+);
