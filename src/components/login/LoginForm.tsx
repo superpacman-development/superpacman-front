@@ -55,9 +55,7 @@ export const LoginForm = () => {
       </div>
 
       <div className="vstack mt-22 gap-36">
-        <Button type="submit" disabled={!isValid}>
-          로그인
-        </Button>
+        <Button type="submit">로그인</Button>
         <Checkbox label="로그인 상태 유지" />
       </div>
     </form>

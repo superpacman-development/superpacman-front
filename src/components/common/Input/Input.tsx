@@ -1,4 +1,4 @@
-import { cx } from '@/utils/cx';
+import { cn } from '@/utils/cn';
 import React, { forwardRef, PropsWithChildren } from 'react';
 
 export type InputProps = {
@@ -6,11 +6,11 @@ export type InputProps = {
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Root = ({ children, className }: PropsWithChildren<{ className?: string }>) => {
-  return <div className={cx('vstack gap-6', className)}>{children}</div>;
+  return <div className={cn('vstack gap-6', className)}>{children}</div>;
 };
 
 const Label = ({ children, className }: PropsWithChildren<{ className?: string }>) => {
-  return <label className={cx('font-semibold text-darkGray-70', className)}>{children}</label>;
+  return <label className={cn('font-semibold text-darkGray-70', className)}>{children}</label>;
 };
 
 const Text = forwardRef<HTMLInputElement, InputProps>(function Text({ state, ...props }, ref) {
@@ -18,7 +18,7 @@ const Text = forwardRef<HTMLInputElement, InputProps>(function Text({ state, ...
     <input
       type="text"
       {...props}
-      className={cx(
+      className={cn(
         'h-36 rounded-3 border px-15 text-14 outline-none',
         state === 'error' ? 'border-error' : 'border-darkGray-20 focus:border-darkGray-70',
         props.className,

@@ -44,7 +44,7 @@ function httpClient<T = Response>({ baseUrl, interceptors = {}, ...requestInit }
 }
 
 export const createFetch = httpClient({
-  baseUrl: 'http://api.superpacman.co.kr',
+  baseUrl: 'https://api.superpacman.co.kr',
   headers: { 'Content-Type': 'application/json' },
   interceptors: {
     request(_, init) {

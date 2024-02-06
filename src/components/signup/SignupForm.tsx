@@ -4,7 +4,7 @@ import { signup } from '@/api/auth/signup';
 import { Button } from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input/Input';
 import { HStack, VStack } from '@/components/common/Stack/Stack';
-import { cx } from '@/utils/cx';
+import { cn } from '@/utils/cn';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -14,12 +14,6 @@ import { z } from 'zod';
 import CheckCircleIcon from '../../../public/assets/check-circle.svg';
 import CheckIcon from '../../../public/assets/check.svg';
 import { PasswordInput } from './PasswordInput';
-
-const terms = [
-  { label: '전자상거래 약관 동의', handleClick: () => alert('전자상거래 약관 동의') },
-  { label: '개인정보 처리방침 약관 동의', handleClick: () => alert('개인정보 처리방침 약관 동의') },
-  { label: '이메일 뉴스 수신 동의 (선택)', handleClick: () => alert('이메일 뉴스 수신 동의 (선택)') },
-];
 
 const NonNullableString = z.string().min(1);
 
@@ -133,7 +127,7 @@ export const SignupForm = () => {
       <VStack className="font-btn-bold mt-20 gap-16">
         <button
           type="button"
-          className={cx(
+          className={cn(
             'rounded-3 border border-solid border-darkGray-30 p-8',
             allChecked ? 'border-[#0000000F] bg-peaGreen-50 text-white' : 'bg-white text-darkGray-40',
           )}
@@ -190,7 +184,7 @@ const TermsAgreeToggle = forwardRef<HTMLInputElement, InputHTMLAttributes<HTMLIn
       <HStack>
         <label className="hstack items-start">
           <input type="checkbox" className="hidden" ref={ref} {...props} />
-          <HStack className={cx('gap-4 hover:cursor-pointer', props.checked ? 'text-peaGreen-50' : 'text-darkGray-40')}>
+          <HStack className={cn('gap-4 hover:cursor-pointer', props.checked ? 'text-peaGreen-50' : 'text-darkGray-40')}>
             <CheckIcon />
             <span>{props.label}</span>
           </HStack>

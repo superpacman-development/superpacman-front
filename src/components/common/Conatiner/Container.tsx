@@ -1,4 +1,4 @@
-import { cx } from '@/utils/cx';
+import { cn } from '@/utils/cn';
 import { forwardRef, HTMLAttributes } from 'react';
 
 type ContainerProps = HTMLAttributes<HTMLDivElement>;
@@ -9,7 +9,7 @@ export const Container = forwardRef<HTMLDivElement, ContainerProps>(function Con
       ref={ref}
       {...props}
       style={{ maxWidth: 'min(calc(100vw - 2.5rem), 100%)' }}
-      className={cx('max-w-container mx-auto w-full', className)}
+      className={cn('max-w-container mx-auto w-full', className)}
     >
       {props.children}
     </div>
