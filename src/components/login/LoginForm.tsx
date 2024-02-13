@@ -6,12 +6,14 @@ import { z } from 'zod';
 
 import { authenticate } from '@/api/auth/authenticate';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { Button } from '../common/Button/Button';
 import { Checkbox } from '../common/Checkbox/Checkbox';
 import { Input } from '../common/Input/Input';
+import { VStack } from '../common/Stack/Stack';
 
 const LoginSchema = z.object({
-  id: z.string().email('이메일 형식에 맞지 않습니다.').min(1, ''),
+  email: z.string().email('이메일 형식에 맞지 않습니다.').min(1, ''),
   password: z.string().min(1, ''),
 });
 
@@ -28,7 +30,8 @@ export const LoginForm = () => {
     resolver: zodResolver(LoginSchema),
   });
 
-  const idErrorMessage = dirtyFields.id ? errors.id?.message : undefined;
+  const [error, setError] = useState('');
+  const emailErrorMessage = dirtyFields.email ? errors.email?.message : undefined;
 
   return (
     <form
@@ -37,16 +40,16 @@ export const LoginForm = () => {
         const response = await authenticate(data);
         if (response.code === 200) {
           router.push('/');
-        } else if (response.code === 1000) {
-          alert('이미 가입되어 있는 이메일 주소입니다.');
+        } else if (response.code === 400) {
+          setError('아이디(이메일) 또는 비밀번호를 잘못 입력했습니다.\n입력하신 내용을 다시 확인해주세요.');
         }
       })}
     >
       <div className="vstack gap-[1.625rem]">
         <Input.Root>
           <Input.Label>아이디(이메일)</Input.Label>
-          <Input.Text {...register('id')} state={idErrorMessage ? 'error' : undefined} autoFocus />
-          <Input.HelpText>{idErrorMessage}</Input.HelpText>
+          <Input.Text {...register('email')} state={emailErrorMessage ? 'error' : undefined} autoFocus />
+          <Input.HelpText>{emailErrorMessage}</Input.HelpText>
         </Input.Root>
         <Input.Root>
           <Input.Label>비밀번호</Input.Label>
@@ -54,10 +57,13 @@ export const LoginForm = () => {
         </Input.Root>
       </div>
 
-      <div className="vstack mt-22 gap-36">
-        <Button type="submit">로그인</Button>
+      <VStack className="mt-22 gap-36">
+        <VStack className="gap-6">
+          <Button type="submit">로그인</Button>
+          {error && <p className="whitespace-pre-wrap text-error">{error}</p>}
+        </VStack>
         <Checkbox label="로그인 상태 유지" />
-      </div>
+      </VStack>
     </form>
   );
 };
