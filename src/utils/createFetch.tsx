@@ -47,8 +47,8 @@ export const createFetch = httpClient({
   baseUrl: 'https://api.superpacman.co.kr',
   headers: { 'Content-Type': 'application/json' },
   interceptors: {
-    request(_, init) {
-      console.log('request', _, init);
+    request(request, init) {
+      process.env.NODE_ENV === 'development' && console.log('Request:', request, init);
       return init;
     },
     async response(response) {
@@ -58,11 +58,11 @@ export const createFetch = httpClient({
 
       try {
         const data = await response.json();
-        console.log('response', data);
+        process.env.NODE_ENV === 'development' && console.log('Response:', data);
         return data;
-      } catch {
+      } catch (e) {
         // eslint-disable-next-line no-console
-        console.error('Failed to parse response body as JSON.');
+        process.env.NODE_ENV === 'development' && console.error('Failed to parse response body as JSON.', e);
         return null;
       }
     },

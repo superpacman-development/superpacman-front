@@ -1,7 +1,7 @@
 'use client';
 
 import * as CheckboxPrimitives from '@radix-ui/react-checkbox';
-import React, { useId } from 'react';
+import { useId } from 'react';
 import { HStack } from '../Stack/Stack';
 
 export type CheckboxProps = {
@@ -13,8 +13,8 @@ export const Checkbox = ({ label, ...props }: CheckboxProps) => {
   const id = props.id ?? defaultId;
 
   return (
-    <HStack className="gap-6 text-darkGray-40">
-      <CheckboxPrimitives.Root defaultChecked id={id} {...props}>
+    <HStack className="gap-6">
+      <CheckboxPrimitives.Root id={id} {...props}>
         <CheckboxPrimitives.Indicator forceMount className="group">
           <div className="flex h-18 w-18 items-center justify-center">
             <svg

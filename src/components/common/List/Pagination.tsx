@@ -33,7 +33,7 @@ export const Pagination = ({
             onClick={() => setCurrentPage(i - 1)}
             className={cn(
               'rounded-3 border border-solid bg-lightGray-40 [&]:h-34 [&]:w-34',
-              currentPage === i ? 'border-blue-50' : 'border-[#0000000f]',
+              currentPage === i ? 'border-blue-50' : 'border-border',
             )}
           >
             {i}
