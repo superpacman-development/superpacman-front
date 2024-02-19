@@ -45,11 +45,7 @@ export const SignupForm = () => {
   } = useForm<SignupSchemaType>({
     mode: 'onBlur',
     reValidateMode: 'onBlur',
-    resolver: async (...values) => {
-      console.log(values);
-      console.log(await zodResolver(SignupSchema)(...values));
-      return zodResolver(SignupSchema)(...values);
-    },
+    resolver: zodResolver(SignupSchema),
   });
 
   const checkEmailExist = async (email: string) => {
@@ -128,8 +124,8 @@ export const SignupForm = () => {
         <button
           type="button"
           className={cn(
-            'rounded-3 border border-solid border-darkGray-30 p-8',
-            allChecked ? 'border-[#0000000F] bg-peaGreen-50 text-white' : 'bg-white text-darkGray-40',
+            'rounded-3 border border-solid p-8',
+            allChecked ? 'border-border bg-peaGreen-50 text-white' : 'border-darkGray-30 bg-white text-darkGray-40',
           )}
           onClick={() => {
             setValue('전자상거래약관_동의여부', !allChecked);
