@@ -12,7 +12,7 @@ import {
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Divider } from '../Divider';
-import { HStack, VStack } from '../Stack/Stack';
+import { HStack, VStack } from '../Stack';
 import { Pagination } from './Pagination';
 
 export const List = <T extends any>({ columns, data }: { columns: ColumnDef<T, any>[]; data: T[] }) => {

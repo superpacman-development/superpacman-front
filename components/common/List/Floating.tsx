@@ -2,7 +2,7 @@ import * as Popover from '@radix-ui/react-popover';
 import { PropsWithChildren } from 'react';
 import ArrowTopIcon from '~/assets/arrow-top.svg';
 import { Checkbox } from '../Checkbox/Checkbox';
-import { HStack, VStack } from '../Stack/Stack';
+import { HStack, VStack } from '../Stack';
 
 const Root = (props: Popover.PopoverProps) => {
   return <Popover.Root {...props} />;
@@ -65,7 +65,7 @@ const Filter = ({
   );
 };
 
-export const ListPopover = {
+export const Floating = {
   Root,
   Trigger,
   Content,

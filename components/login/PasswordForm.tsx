@@ -1,11 +1,10 @@
 'use client';
 
+import { Button } from '@components/Button';
+import { Input } from '@components/Input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { Button } from '../common/Button/Button';
-import { Input } from '../common/Input/Input';
 
 const schema = z.object({
   id: z.string().email('이메일 형식에 맞지 않습니다.').min(1, ''),

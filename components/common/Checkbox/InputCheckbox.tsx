@@ -1,6 +1,6 @@
 import { cn } from '@/utils/cn';
+import { Checkbox, CheckboxProps } from '@components/Checkbox';
 import { useState } from 'react';
-import { Checkbox, CheckboxProps } from './Checkbox';
 
 export const InputCheckbox = (props: CheckboxProps) => {
   const [checked, setChecked] = useState(false);

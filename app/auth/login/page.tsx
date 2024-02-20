@@ -1,7 +1,7 @@
-import { Container } from '@/components/common/Conatiner/Container';
-import { Logo } from '@/components/common/logo/Logo';
-import { HStack } from '@/components/common/Stack/Stack';
 import { LoginForm } from '@/components/login/LoginForm';
+import { Container } from '@components/Conatiner';
+import { Logo } from '@components/Logo';
+import { HStack } from '@components/Stack';
 import Link from 'next/link';
 
 export default function Login() {

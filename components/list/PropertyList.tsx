@@ -1,16 +1,13 @@
 'use client';
+import { InputCheckbox } from '@components/Checkbox';
+import { Divider } from '@components/Divider';
+import { Drawer } from '@components/Drawer';
+import { Floating, List } from '@components/List';
+import { Select } from '@components/Select';
+import { HStack, VStack } from '@components/Stack';
 import { createColumnHelper } from '@tanstack/table-core';
-import { InputCheckbox } from '../common/Checkbox/InputCheckbox';
-import { Divider } from '../common/Divider/Divider';
-import { List } from '../common/List/List';
-import { Select } from '../common/Select/Select';
-import { HStack, VStack } from '../common/Stack/Stack';
-
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
 import RestoreIcon from '~/assets/restore.svg';
-import { Drawer } from '../common/Drawer/Drawer';
-
-import { ListPopover } from '../common/List/Popover';
 
 const building = {
   buildingName: '개포래미안포레스트 행복주택',
@@ -28,61 +25,61 @@ const columnHelper = createColumnHelper<typeof building>();
 const columns = [
   columnHelper.accessor('buildingName', {
     header: () => (
-      <ListPopover.Root>
-        <ListPopover.Trigger>건물이름</ListPopover.Trigger>
-        <ListPopover.Content>
-          <ListPopover.Sort
+      <Floating.Root>
+        <Floating.Trigger>건물이름</Floating.Trigger>
+        <Floating.Content>
+          <Floating.Sort
             options={[
               { text: '가나다 오름차순', sort: 'asc' },
               { text: '가나다 내림차순', sort: 'desc' },
             ]}
           />
-        </ListPopover.Content>
-      </ListPopover.Root>
+        </Floating.Content>
+      </Floating.Root>
     ),
   }),
   columnHelper.accessor('dong', {
     header: () => (
-      <ListPopover.Root>
-        <ListPopover.Trigger>동</ListPopover.Trigger>
-        <ListPopover.Content>
-          <ListPopover.Sort
+      <Floating.Root>
+        <Floating.Trigger>동</Floating.Trigger>
+        <Floating.Content>
+          <Floating.Sort
             options={[
               { text: '오름차순', sort: 'asc' },
               { text: '내림차순', sort: 'desc' },
             ]}
           />
-        </ListPopover.Content>
-      </ListPopover.Root>
+        </Floating.Content>
+      </Floating.Root>
     ),
   }),
   columnHelper.accessor('exclusiveArea', {
     header: () => (
-      <ListPopover.Root>
-        <ListPopover.Trigger>공급면적</ListPopover.Trigger>
-        <ListPopover.Content>
-          <ListPopover.Sort
+      <Floating.Root>
+        <Floating.Trigger>공급면적</Floating.Trigger>
+        <Floating.Content>
+          <Floating.Sort
             options={[
               { text: '오름차순', sort: 'asc' },
               { text: '내림차순', sort: 'desc' },
             ]}
           />
-        </ListPopover.Content>
-      </ListPopover.Root>
+        </Floating.Content>
+      </Floating.Root>
     ),
   }),
   columnHelper.accessor('floor', {
     header: () => (
-      <ListPopover.Root>
-        <ListPopover.Trigger>층고</ListPopover.Trigger>
-        <ListPopover.Content>
-          <ListPopover.Sort
+      <Floating.Root>
+        <Floating.Trigger>층고</Floating.Trigger>
+        <Floating.Content>
+          <Floating.Sort
             options={[
               { text: '고층 순', sort: 'desc' },
               { text: '저층 순', sort: 'asc' },
             ]}
           />
-          <ListPopover.Filter
+          <Floating.Filter
             name="층 필터"
             type="checkbox"
             options={[
@@ -91,37 +88,37 @@ const columns = [
               { text: '고층', value: 'high' },
             ]}
           />
-        </ListPopover.Content>
-      </ListPopover.Root>
+        </Floating.Content>
+      </Floating.Root>
     ),
   }),
   columnHelper.accessor('desiredAmount', {
     header: () => (
-      <ListPopover.Root>
-        <ListPopover.Trigger>희망금액</ListPopover.Trigger>
-        <ListPopover.Content>
-          <ListPopover.Sort
+      <Floating.Root>
+        <Floating.Trigger>희망금액</Floating.Trigger>
+        <Floating.Content>
+          <Floating.Sort
             options={[
               { text: '금액 높은 순', sort: 'desc' },
               { text: '금액 낮은 순', sort: 'asc' },
             ]}
           />
-        </ListPopover.Content>
-      </ListPopover.Root>
+        </Floating.Content>
+      </Floating.Root>
     ),
   }),
   columnHelper.accessor('moveInDate', {
     header: () => (
-      <ListPopover.Root>
-        <ListPopover.Trigger>입주가능일</ListPopover.Trigger>
-        <ListPopover.Content>
-          <ListPopover.Sort
+      <Floating.Root>
+        <Floating.Trigger>입주가능일</Floating.Trigger>
+        <Floating.Content>
+          <Floating.Sort
             options={[
               { text: '가까운 일정 순', sort: 'asc' },
               { text: '먼 일정 순', sort: 'desc' },
             ]}
           />
-          <ListPopover.Filter
+          <Floating.Filter
             name="층 필터"
             type="checkbox"
             options={[
@@ -130,8 +127,8 @@ const columns = [
               { text: '협의', value: 'discussion' },
             ]}
           />
-        </ListPopover.Content>
-      </ListPopover.Root>
+        </Floating.Content>
+      </Floating.Root>
     ),
   }),
   columnHelper.accessor('features', {
@@ -139,17 +136,17 @@ const columns = [
   }),
   columnHelper.accessor('createdDate', {
     header: () => (
-      <ListPopover.Root>
-        <ListPopover.Trigger>등록일</ListPopover.Trigger>
-        <ListPopover.Content>
-          <ListPopover.Sort
+      <Floating.Root>
+        <Floating.Trigger>등록일</Floating.Trigger>
+        <Floating.Content>
+          <Floating.Sort
             options={[
               { text: '최신 순', sort: 'desc' },
               { text: '오래된 순', sort: 'asc' },
             ]}
           />
-        </ListPopover.Content>
-      </ListPopover.Root>
+        </Floating.Content>
+      </Floating.Root>
     ),
   }),
   {

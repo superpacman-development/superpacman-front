@@ -13,7 +13,7 @@ const pxToRem1_160 = {
 };
 
 const config: Config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx,mdx}', './app/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: ['./components/**/*.{js,ts,jsx,tsx,mdx}', './app/**/*.{js,ts,jsx,tsx,mdx}'],
   theme: {
     colors: {
       white: '#FFF',

@@ -1,15 +1,15 @@
 'use client';
 
 import { authenticate } from '@/api/auth/authenticate';
+import { Button } from '@components/Button';
+import { Checkbox } from '@components/Checkbox/Checkbox';
+import { Input } from '@components/Input';
+import { VStack } from '@components/Stack';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Button } from '../common/Button/Button';
-import { Checkbox } from '../common/Checkbox/Checkbox';
-import { Input } from '../common/Input/Input';
-import { VStack } from '../common/Stack/Stack';
 
 export const LoginSchema = z.object({
   email: z.string().email('이메일 형식에 맞지 않습니다.').min(1, ''),

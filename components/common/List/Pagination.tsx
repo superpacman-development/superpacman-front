@@ -1,7 +1,7 @@
 'use client';
 
-import { HStack } from '@/components/common/Stack/Stack';
 import { cn } from '@/utils/cn';
+import { HStack } from '@components/Stack';
 import ArrowLeftIcon from '~/assets/arrow-left.svg';
 
 export const Pagination = ({

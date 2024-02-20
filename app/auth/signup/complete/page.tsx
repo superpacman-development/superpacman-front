@@ -1,6 +1,6 @@
-import { Button } from '@/components/common/Button/Button';
-import { Logo } from '@/components/common/logo/Logo';
-import { HStack, VStack } from '@/components/common/Stack/Stack';
+import { Button } from '@components/Button';
+import { Logo } from '@components/Logo';
+import { HStack, VStack } from '@components/Stack';
 import Link from 'next/link';
 
 export default function SignupComplete() {

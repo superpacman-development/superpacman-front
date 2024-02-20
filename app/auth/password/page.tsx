@@ -1,6 +1,6 @@
-import { Container } from '@/components/common/Conatiner/Container';
-import { Logo } from '@/components/common/logo/Logo';
 import { PasswordForm } from '@/components/login/PasswordForm';
+import { Container } from '@components/Conatiner';
+import { Logo } from '@components/Logo';
 
 export default function Passwrod() {
   return (

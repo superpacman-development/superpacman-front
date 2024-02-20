@@ -1,4 +1,4 @@
-import { VStack } from '../Stack/Stack';
+import { VStack } from '../Stack';
 
 export const Logo = () => {
   return (

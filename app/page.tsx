@@ -1,5 +1,5 @@
-import { VStack } from '@/components/common/Stack/Stack';
 import { PropertyList } from '@/components/list/PropertyList';
+import { VStack } from '@components/Stack';
 
 export default async function Home() {
   return (

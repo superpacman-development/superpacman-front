@@ -1,6 +1,6 @@
-import { Container } from '@/components/common/Conatiner/Container';
-import { VStack } from '@/components/common/Stack/Stack';
 import { SignupForm } from '@/components/signup/SignupForm';
+import { Container } from '@components/Conatiner';
+import { VStack } from '@components/Stack';
 
 export default function Signup() {
   return (

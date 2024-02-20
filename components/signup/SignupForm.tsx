@@ -1,19 +1,19 @@
 'use client';
 
-import { Button } from '@/components/common/Button/Button';
-import { Input } from '@/components/common/Input/Input';
-import { HStack, VStack } from '@/components/common/Stack/Stack';
+import { signup } from '@/api/auth/signup';
+import { PasswordInput } from '@/components/signup/PasswordInput';
 import { cn } from '@/utils/cn';
+import { Button } from '@components/Button';
+import { Input } from '@components/Input';
+import { HStack, VStack } from '@components/Stack';
 import { DevTool } from '@hookform/devtools';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { FocusEventHandler, InputHTMLAttributes, forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import CheckCircleIcon from '../../../public/assets/check-circle.svg';
-import CheckIcon from '../../../public/assets/check.svg';
-import { signup } from '../../api/auth/signup';
-import { PasswordInput } from './PasswordInput';
+import CheckCircleIcon from '~assets/check-circle.svg';
+import CheckIcon from '~assets/check.svg';
 
 const NonNullableString = z.string().min(1);
 

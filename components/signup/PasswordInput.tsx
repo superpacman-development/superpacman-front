@@ -1,10 +1,10 @@
 'use client';
 
+import { Input, InputProps } from '@components/Input';
+import { HStack } from '@components/Stack';
 import { PropsWithChildren, forwardRef, useState } from 'react';
-import InvisibleIcon from '../../../public/assets/invisible.svg';
-import VisibleIcon from '../../../public/assets/visible.svg';
-import { Input, InputProps } from '../common/Input/Input';
-import { HStack } from '../common/Stack/Stack';
+import InvisibleIcon from '~/assets/invisible.svg';
+import VisibleIcon from '~/assets/visible.svg';
 
 export const PasswordInput = forwardRef<HTMLInputElement, PropsWithChildren<InputProps>>(function PasswordInput(
   { children, ...props },
