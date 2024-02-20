@@ -1,6 +1,5 @@
 'use client';
 
-import { signup } from '@/api/auth/signup';
 import { Button } from '@/components/common/Button/Button';
 import { Input } from '@/components/common/Input/Input';
 import { HStack, VStack } from '@/components/common/Stack/Stack';
@@ -13,6 +12,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import CheckCircleIcon from '../../../public/assets/check-circle.svg';
 import CheckIcon from '../../../public/assets/check.svg';
+import { signup } from '../../api/auth/signup';
 import { PasswordInput } from './PasswordInput';
 
 const NonNullableString = z.string().min(1);

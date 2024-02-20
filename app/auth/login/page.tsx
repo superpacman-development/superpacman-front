@@ -8,7 +8,6 @@ export default function Login() {
   return (
     <Container className="vstack h-full items-center justify-center gap-32">
       <Logo />
-
       <LoginForm />
 
       <HStack className="gap-38 text-darkGray-40">

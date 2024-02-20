@@ -1,5 +1,4 @@
 'use client';
-
 import { createColumnHelper } from '@tanstack/table-core';
 import { InputCheckbox } from '../common/Checkbox/InputCheckbox';
 import { Divider } from '../common/Divider/Divider';

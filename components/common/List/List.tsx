@@ -11,7 +11,7 @@ import {
 } from '@tanstack/react-table';
 import { useState } from 'react';
 import { Checkbox } from '../Checkbox/Checkbox';
-import { Divider } from '../Divider/Divider';
+import { Divider } from '../Divider';
 import { HStack, VStack } from '../Stack/Stack';
 import { Pagination } from './Pagination';
 
