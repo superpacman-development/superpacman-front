@@ -192,10 +192,10 @@ export const PropertyList = () => {
           <InputCheckbox label="월세" />
         </HStack>
 
-        <HStack className="gap-8 px-12 text-darkGray-40">
+        <button className="hstack gap-8 px-12 text-darkGray-40">
           <RestoreIcon />
           초기화
-        </HStack>
+        </button>
       </HStack>
 
       <List columns={columns} data={[building]} />

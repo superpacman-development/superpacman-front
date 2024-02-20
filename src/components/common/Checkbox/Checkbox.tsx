@@ -1,19 +1,20 @@
 'use client';
 
+import { cn } from '@/utils/cn';
 import * as CheckboxPrimitives from '@radix-ui/react-checkbox';
 import { useId } from 'react';
-import { HStack } from '../Stack/Stack';
 
 export type CheckboxProps = {
   label?: string;
+  wrapperClassName?: string;
 } & CheckboxPrimitives.CheckboxProps;
 
-export const Checkbox = ({ label, ...props }: CheckboxProps) => {
+export const Checkbox = ({ label, wrapperClassName, ...props }: CheckboxProps) => {
   const defaultId = useId();
   const id = props.id ?? defaultId;
 
   return (
-    <HStack className="gap-6">
+    <label htmlFor={id} className={cn('hstack gap-6', wrapperClassName)}>
       <CheckboxPrimitives.Root id={id} {...props}>
         <CheckboxPrimitives.Indicator forceMount className="group">
           <div className="flex h-18 w-18 items-center justify-center">
@@ -51,11 +52,7 @@ export const Checkbox = ({ label, ...props }: CheckboxProps) => {
           </div>
         </CheckboxPrimitives.Indicator>
       </CheckboxPrimitives.Root>
-      {label && (
-        <label className="Label" htmlFor={id}>
-          {label}
-        </label>
-      )}
-    </HStack>
+      {label}
+    </label>
   );
 };

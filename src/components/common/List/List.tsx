@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/utils/cn';
 import {
   ColumnDef,
   flexRender,
@@ -53,10 +54,14 @@ export const List = <T extends any>({ columns, data }: { columns: ColumnDef<T, a
             ))}
           </HStack>
         ))}
+
         {table.getRowModel().rows.map((row) => (
           <HStack
             key={row.id}
-            className="w-full items-center rounded-3 bg-lightGray-10 py-16 outline outline-1 outline-deepNeutrals-30"
+            className={cn(
+              'w-full items-center rounded-3 bg-lightGray-10 py-16 outline outline-1 outline-deepNeutrals-30',
+              row.getIsSelected() && 'outline-blue-50',
+            )}
           >
             <div className="hstack w-70 flex-none">
               <Checkbox

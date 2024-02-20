@@ -100,15 +100,6 @@ const config: Config = {
       dropShadow: {
         popover: '0px 12px 24px rgba(0, 0, 0, 0.20)',
       },
-      keyframes: {
-        slideRight: {
-          '0%': { transform: 'translateX(100%)' },
-          '100%': { transform: 'translateX(0px)' },
-        },
-      },
-      animation: {
-        drawerOpen: 'slideRight 0.3s ease-in-out',
-      },
     },
   },
   plugins: [],

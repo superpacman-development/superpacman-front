@@ -2,6 +2,12 @@ type FetchParameters = Parameters<typeof fetch>;
 type Promiseable<T> = T | Promise<T>;
 export type HTTPClient<R = Response> = ReturnType<typeof httpClient<R>>;
 
+export type BaseResponse<T extends Record<string, any>> = {
+  data: T;
+  code: number;
+  message: string;
+};
+
 export interface HTTPClientOption<T = Response> extends Omit<NonNullable<FetchParameters[1]>, 'body'> {
   baseUrl?: string;
   interceptors?: {

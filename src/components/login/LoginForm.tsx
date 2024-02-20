@@ -12,7 +12,7 @@ import { Checkbox } from '../common/Checkbox/Checkbox';
 import { Input } from '../common/Input/Input';
 import { VStack } from '../common/Stack/Stack';
 
-const LoginSchema = z.object({
+export const LoginSchema = z.object({
   email: z.string().email('이메일 형식에 맞지 않습니다.').min(1, ''),
   password: z.string().min(1, ''),
 });
@@ -24,7 +24,7 @@ export const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid, dirtyFields },
+    formState: { errors, dirtyFields },
   } = useForm<z.infer<typeof LoginSchema>>({
     mode: 'onBlur',
     resolver: zodResolver(LoginSchema),
