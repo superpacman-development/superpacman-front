@@ -12,8 +12,8 @@ import { useRouter } from 'next/navigation';
 import { FocusEventHandler, InputHTMLAttributes, forwardRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import CheckCircleIcon from '~assets/check-circle.svg';
-import CheckIcon from '~assets/check.svg';
+import CheckCircleIcon from '~/assets/check-circle.svg';
+import CheckIcon from '~/assets/check.svg';
 
 const NonNullableString = z.string().min(1);
 

@@ -1,37 +1,9 @@
 import { PropertyList } from '@/components/list/PropertyList';
 import { CitySelect, ResetButton } from '@/components/list/SearchForm';
-import { BaseResponse, createFetchWithAuth } from '@/utils/createFetch';
+import { getAddress } from '@/lib/queries';
 import { InputCheckbox } from '@components/Checkbox';
 import { Divider } from '@components/Divider';
 import { HStack, VStack } from '@components/Stack';
-import { z } from 'zod';
-
-export const AddressResponseSchema = z.array(
-  z.object({
-    code: z.string(),
-    bigCity: z.string().nullish(),
-    city: z.string().nullish(),
-    siGunGu: z.string().nullish(),
-    eupMyeon: z.string().nullish(),
-    dongRi: z.string().nullish(),
-    dolomyeong: z.string().nullish(),
-    type: z.string().nullish(),
-  }),
-);
-
-async function getAddress(params?: any) {
-  if (!params) {
-    const emptyList: z.infer<typeof AddressResponseSchema> = [];
-    return emptyList;
-  }
-
-  const query = new URLSearchParams(params).toString();
-  const queryString = query ? `?${query}` : '';
-  const response = await createFetchWithAuth<BaseResponse<z.infer<typeof AddressResponseSchema>>>(
-    '/apartments/address' + queryString,
-  );
-  return response.data;
-}
 
 export default async function List({
   searchParams,

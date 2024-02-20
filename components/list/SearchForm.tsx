@@ -1,10 +1,9 @@
 'use client';
 
-import { AddressResponseSchema } from '@/app/page';
+import { AddressResponse } from '@/lib/queries';
 import { Select } from '@components/Select';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { match } from 'ts-pattern';
-import { z } from 'zod';
 import RestoreIcon from '~/assets/restore.svg';
 
 export const CitySelect = ({
@@ -12,7 +11,7 @@ export const CitySelect = ({
   type,
   defaultValue,
 }: {
-  data: z.infer<typeof AddressResponseSchema>;
+  data: AddressResponse;
   type: 'BIG_CITY' | 'MIDDLE_CITY' | 'LITTLE_CITY';
   defaultValue?: string;
 }) => {
