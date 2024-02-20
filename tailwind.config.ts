@@ -18,6 +18,7 @@ const config: Config = {
     colors: {
       white: '#FFF',
       error: '#DA1E28',
+      border: '#0000000F',
       lightGray: {
         '10': '#f8fafb',
         '20': '#f4f7f9',
@@ -92,6 +93,21 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      },
+      boxShadow: {
+        shadow: '0px 1px 1px rgba(0, 0, 0, 0.06)',
+      },
+      dropShadow: {
+        popover: '0px 12px 24px rgba(0, 0, 0, 0.20)',
+      },
+      keyframes: {
+        slideRight: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(0px)' },
+        },
+      },
+      animation: {
+        drawerOpen: 'slideRight 0.3s ease-in-out',
       },
     },
   },
