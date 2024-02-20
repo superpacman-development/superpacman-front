@@ -1,13 +1,8 @@
 'use client';
-import { InputCheckbox } from '@components/Checkbox';
-import { Divider } from '@components/Divider';
 import { Drawer } from '@components/Drawer';
 import { Floating, List } from '@components/List';
-import { Select } from '@components/Select';
-import { HStack, VStack } from '@components/Stack';
 import { createColumnHelper } from '@tanstack/table-core';
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
-import RestoreIcon from '~/assets/restore.svg';
 
 const building = {
   buildingName: '개포래미안포레스트 행복주택',
@@ -170,31 +165,5 @@ const columns = [
 ];
 
 export const PropertyList = () => {
-  return (
-    <VStack className="gap-32 px-42 py-26">
-      <h1 className="font-page-title mb-12">매물 목록</h1>
-      <HStack className="items-center gap-16">
-        <HStack className="gap-8">
-          <Select options={[{ value: '경기', name: '경기도' }]} />
-          <Select options={[{ value: '하남', name: '하남시' }]} />
-          <Select options={[{ value: '망월', name: '망월동' }]} />
-        </HStack>
-
-        <Divider width={2} />
-
-        <HStack className="gap-8">
-          <InputCheckbox label="매매" />
-          <InputCheckbox label="전세" />
-          <InputCheckbox label="월세" />
-        </HStack>
-
-        <button className="hstack gap-8 px-12 text-darkGray-40">
-          <RestoreIcon />
-          초기화
-        </button>
-      </HStack>
-
-      <List columns={columns} data={[building]} />
-    </VStack>
-  );
+  return <List columns={columns} data={[building]} />;
 };

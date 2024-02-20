@@ -1,3 +1,5 @@
+import { cookies } from 'next/headers';
+
 type FetchParameters = Parameters<typeof fetch>;
 type Promiseable<T> = T | Promise<T>;
 export type HTTPClient<R = Response> = ReturnType<typeof httpClient<R>>;
@@ -74,3 +76,14 @@ export const createFetch = httpClient({
     },
   },
 });
+
+export async function createFetchWithAuth<R = Response>(input: FetchParameters[0], init?: FetchParameters[1]) {
+  if (!cookies().has('token')) {
+    throw new Error('No permission');
+  }
+
+  const options = { ...init };
+  options.headers = { ...options.headers, Authorization: `Bearer ${cookies().get('token')!.value}` };
+
+  return createFetch<R>(input, options);
+}

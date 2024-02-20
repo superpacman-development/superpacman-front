@@ -1,13 +1,24 @@
-export const Select = (
-  { defaultValue, options, onChange }: {
-    defaultValue?: string;
-    options: { name: string; value: string }[];
-    onChange?: (value: string) => void;
-  },
-) => {
+'use client';
+
+import { SelectHTMLAttributes } from 'react';
+
+export const Select = ({
+  defaultValue,
+  options,
+  placeholder,
+  ...props
+}: {
+  placeholder?: string;
+  options: { name: string; value: string }[];
+} & SelectHTMLAttributes<HTMLSelectElement>) => {
   return (
-    <select defaultValue={defaultValue} onChange={e => onChange?.(e.target.value)}>
-      {options.map(option => <option key={option.value} value={option.value}>{option.name}</option>)}
+    <select defaultValue={defaultValue ?? placeholder ? '' : undefined} {...props}>
+      {placeholder && <option value="">{placeholder}</option>}
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.name}
+        </option>
+      ))}
     </select>
   );
 };
