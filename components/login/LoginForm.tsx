@@ -1,6 +1,6 @@
 'use client';
 
-import { authenticate } from '@/api/auth/authenticate';
+import { authenticate } from '@/lib/actions';
 import { Button } from '@components/Button';
 import { Checkbox } from '@components/Checkbox/Checkbox';
 import { Input } from '@components/Input';
@@ -15,8 +15,6 @@ export const LoginSchema = z.object({
   email: z.string().email('이메일 형식에 맞지 않습니다.').min(1, ''),
   password: z.string().min(1, ''),
 });
-
-export type LoginSchemaType = z.infer<typeof LoginSchema>;
 
 export const LoginForm = () => {
   const router = useRouter();
