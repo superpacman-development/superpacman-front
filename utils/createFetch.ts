@@ -74,3 +74,10 @@ export const createFetch = httpClient({
     },
   },
 });
+
+type ParameterValue = string | number | ParameterValue[];
+export function makeRequestUrlWithQueryString(url: string, params?: Record<string, ParameterValue>) {
+  const query = new URLSearchParams(params as Record<string, string>).toString();
+  const queryString = query ? `?${query}` : '';
+  return url + queryString;
+}

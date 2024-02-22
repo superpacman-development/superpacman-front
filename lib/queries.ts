@@ -1,6 +1,6 @@
 'use server';
 
-import { BaseResponse } from '@/utils/createFetch';
+import { BaseResponse, makeRequestUrlWithQueryString } from '@/utils/createFetch';
 import { createFetchWithAuth } from '@/utils/createFetchWithAuth';
 
 export type AddressResponse = {
@@ -14,14 +14,83 @@ export type AddressResponse = {
   type?: string;
 }[];
 
-export async function getAddress(params?: any) {
-  if (!params) {
-    const emptyList: AddressResponse = [];
-    return emptyList;
-  }
+type AddressRequest = {
+  addressType: string;
+  bigCityAddressCode?: string;
+  middleCityAddressCode?: string;
+};
 
-  const query = new URLSearchParams(params).toString();
-  const queryString = query ? `?${query}` : '';
-  const response = await createFetchWithAuth<BaseResponse<AddressResponse>>('/apartments/address' + queryString);
+export async function getAddress(params: AddressRequest) {
+  const url = makeRequestUrlWithQueryString('/apartments/address', params);
+  const response = await createFetchWithAuth<BaseResponse<AddressResponse>>(url);
+  return response.data;
+}
+
+export type ApartmentsResponse = {
+  content: {
+    id: number;
+    apartCode: string;
+    dong?: string;
+    ho?: string;
+    ownerName?: string;
+    ownerPhone?: string;
+    directionOfHouse: string;
+    floorPlanType: string;
+    exclusiveArea: string;
+    supplyArea: string;
+    floorType: string;
+    price: number;
+    monthlyRentPrice: number;
+    deposit: number;
+    monthlyDeposit: number;
+    availableMoveInDate: string;
+    memo: string;
+    managementCost: string;
+    confirmationDate: string; // ?
+    confirmationType: string;
+    apartName: string;
+    dongAddress: string;
+    area: string;
+    dongCount: string;
+    unitCount: string;
+    contractor: string;
+    developer: string;
+    apartType: string;
+    doroAddress: string;
+    approvedForUse: string;
+    baseFloor: string;
+    topFloor: string;
+    zipcode: string;
+    dongCode: string;
+    numberOfParkingSpaces: number;
+  }[];
+  pageable: {
+    pageNumber: number;
+    pageSize: number;
+    sort: { empty: boolean; sorted: boolean; unsorted: boolean };
+    offset: number;
+    paged: boolean;
+    unpaged: boolean;
+  };
+  totalPages: number;
+  totalElements: number;
+  last: boolean;
+  size: number;
+  number: number;
+  sort: { empty: boolean; sorted: boolean; unsorted: boolean };
+  numberOfElements: number;
+  first: boolean;
+  empty: boolean;
+};
+
+type ApartmentsRequest = {
+  page: number;
+  size: number;
+  sort: string[];
+};
+
+export async function getApartments(params: ApartmentsRequest) {
+  const url = makeRequestUrlWithQueryString('/apartments', params);
+  const response = await createFetchWithAuth<BaseResponse<any>>(url);
   return response.data;
 }

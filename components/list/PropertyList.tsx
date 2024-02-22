@@ -1,24 +1,14 @@
 'use client';
+import { ApartmentsResponse } from '@/lib/queries';
 import { Drawer } from '@components/Drawer';
 import { Floating, List } from '@components/List';
 import { createColumnHelper } from '@tanstack/table-core';
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
 
-const building = {
-  buildingName: '개포래미안포레스트 행복주택',
-  dong: '1107동',
-  exclusiveArea: '59.97㎡',
-  floor: '고층',
-  desiredAmount: '매매 121,000',
-  moveInDate: '24년 2월 하순',
-  features: '신축 첫입주',
-  createdDate: '24.11.16',
-};
-
-const columnHelper = createColumnHelper<typeof building>();
+const columnHelper = createColumnHelper<ApartmentsResponse['content'][number]>();
 
 const columns = [
-  columnHelper.accessor('buildingName', {
+  columnHelper.accessor('apartName', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>건물이름</Floating.Trigger>
@@ -63,7 +53,7 @@ const columns = [
       </Floating.Root>
     ),
   }),
-  columnHelper.accessor('floor', {
+  columnHelper.accessor('floorType', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>층고</Floating.Trigger>
@@ -87,7 +77,7 @@ const columns = [
       </Floating.Root>
     ),
   }),
-  columnHelper.accessor('desiredAmount', {
+  columnHelper.accessor('price', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>희망금액</Floating.Trigger>
@@ -102,7 +92,7 @@ const columns = [
       </Floating.Root>
     ),
   }),
-  columnHelper.accessor('moveInDate', {
+  columnHelper.accessor('availableMoveInDate', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>입주가능일</Floating.Trigger>
@@ -126,10 +116,10 @@ const columns = [
       </Floating.Root>
     ),
   }),
-  columnHelper.accessor('features', {
+  columnHelper.accessor('memo', {
     header: () => '특징',
   }),
-  columnHelper.accessor('createdDate', {
+  columnHelper.accessor('confirmationDate', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>등록일</Floating.Trigger>
@@ -164,6 +154,6 @@ const columns = [
   },
 ];
 
-export const PropertyList = () => {
-  return <List columns={columns} data={[building]} />;
+export const PropertyList = ({ data }: { data: ApartmentsResponse }) => {
+  return <List columns={columns} data={data.content} />;
 };

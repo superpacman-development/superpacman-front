@@ -1,6 +1,6 @@
 import { PropertyList } from '@/components/list/PropertyList';
 import { CitySelect, ResetButton } from '@/components/list/SearchForm';
-import { getAddress } from '@/lib/queries';
+import { getAddress, getApartments } from '@/lib/queries';
 import { InputCheckbox } from '@components/Checkbox';
 import { Divider } from '@components/Divider';
 import { HStack, VStack } from '@components/Stack';
@@ -11,14 +11,13 @@ export default async function List({
   searchParams: { bigCity?: string; middleCity?: string; littleCity?: string };
 }) {
   const bigCities = await getAddress({ addressType: 'BIG_CITY' });
-  const middleCities = await getAddress(
-    !searchParams?.bigCity ? undefined : { addressType: 'MIDDLE_CITY', bigCityAddressCode: searchParams.bigCity },
-  );
-  const littleCities = await getAddress(
-    !searchParams?.middleCity
-      ? undefined
-      : { addressType: 'LITTLE_CITY', middleCityAddressCode: searchParams.middleCity },
-  );
+  const middleCities = !!searchParams?.bigCity
+    ? await getAddress({ addressType: 'MIDDLE_CITY', bigCityAddressCode: searchParams.bigCity })
+    : [];
+  const littleCities = !!searchParams?.middleCity
+    ? await getAddress({ addressType: 'LITTLE_CITY', middleCityAddressCode: searchParams.middleCity })
+    : [];
+  const apartments = await getApartments({ page: 0, size: 10, sort: [] });
 
   return (
     <VStack style={{ width: 'calc(100% - var(--drawer-content-width, 0))' }}>
@@ -42,7 +41,7 @@ export default async function List({
           <ResetButton />
         </HStack>
 
-        <PropertyList />
+        <PropertyList data={apartments} />
       </VStack>
     </VStack>
   );
