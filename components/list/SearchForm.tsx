@@ -1,67 +1,67 @@
 'use client';
 
+import { CityFloating } from '@/components/list/search/CitySelect';
+import { ResetButton } from '@/components/list/search/ResetButton';
 import { AddressResponse } from '@/lib/queries';
-import { Select } from '@components/Select';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { match } from 'ts-pattern';
-import RestoreIcon from '~/assets/restore.svg';
+import { InputCheckbox } from '@components/Checkbox';
+import { Divider } from '@components/Divider';
+import { HStack } from '@components/Stack';
+import { useSearchParams } from 'next/navigation';
 
-export const CitySelect = ({
+export const SearchForm = ({
   data,
-  type,
-  defaultValue,
 }: {
-  data: AddressResponse;
-  type: 'BIG_CITY' | 'MIDDLE_CITY' | 'LITTLE_CITY';
-  defaultValue?: string;
+  data: { bigCities: AddressResponse; middleCities: AddressResponse; littleCities: AddressResponse };
 }) => {
-  const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
 
   return (
-    <Select
-      placeholder="전체"
-      value={defaultValue ?? ''}
-      options={data.map((city) => ({
-        value: city.code,
-        name: match(type)
-          .with('BIG_CITY', () => city.bigCity!)
-          .with('MIDDLE_CITY', () => `${city.city} ${city.siGunGu ?? city.eupMyeon ?? ''}`)
-          .with('LITTLE_CITY', () => city.dongRi!)
-          .otherwise(() => ''),
-      }))}
-      onChange={(e) => {
-        const value = e.target.value;
-
-        let params = new URLSearchParams(type === 'BIG_CITY' ? undefined : searchParams.toString());
-        match(type)
-          .with('BIG_CITY', () => {
-            params.set('bigCity', value);
-          })
-          .with('MIDDLE_CITY', () => {
+    <HStack className="items-center gap-16">
+      <HStack className="gap-8">
+        <CityFloating
+          name="bigCities"
+          data={data.bigCities}
+          getLabel={(city) => city?.bigCity ?? '전체'}
+          selected={searchParams.get('bigCity')}
+          setValue={(value) => {
+            const params = new URLSearchParams({ bigCity: value });
+            return '?' + params.toString();
+          }}
+        />
+        <CityFloating
+          name="middleCities"
+          data={data.middleCities}
+          getLabel={(city) => (city ? `${city.city} ${city.siGunGu ?? city.eupMyeon ?? ''}` : '시/군/구')}
+          selected={searchParams.get('middleCity')}
+          setValue={(value) => {
+            const params = new URLSearchParams(searchParams.toString());
             params.set('middleCity', value);
-          })
-          .with('LITTLE_CITY', () => {
+            return '?' + params.toString();
+          }}
+        />
+        <CityFloating
+          type="checkbox"
+          name="middleCities"
+          data={data.littleCities}
+          getLabel={(city) => city?.dongRi ?? '동'}
+          selected={searchParams.get('littleCity')}
+          setValue={(value) => {
+            const params = new URLSearchParams(searchParams.toString());
             params.set('littleCity', value);
-          })
-          .otherwise(() => {});
+            return '?' + params.toString();
+          }}
+        />
+      </HStack>
 
-        const queryString = `${params.toString() ? `?${params.toString()}` : ''}`;
-        router.replace(pathname + queryString);
-      }}
-    />
-  );
-};
+      <Divider width={2} />
 
-export const ResetButton = () => {
-  const router = useRouter();
-  const pathname = usePathname();
+      <HStack className="gap-8">
+        <InputCheckbox label="매매" />
+        <InputCheckbox label="전세" />
+        <InputCheckbox label="월세" />
+      </HStack>
 
-  return (
-    <button className="hstack gap-8 px-12 text-darkGray-40" onClick={() => router.replace(pathname)}>
-      <RestoreIcon />
-      초기화
-    </button>
+      <ResetButton />
+    </HStack>
   );
 };

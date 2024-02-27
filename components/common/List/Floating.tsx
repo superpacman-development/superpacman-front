@@ -1,5 +1,5 @@
+import { cn } from '@/utils/cn';
 import * as Popover from '@radix-ui/react-popover';
-import { PropsWithChildren } from 'react';
 import ArrowTopIcon from '~/assets/arrow-top.svg';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { HStack, VStack } from '../Stack';
@@ -18,12 +18,13 @@ const Trigger = ({ children, ...props }: Popover.PopoverTriggerProps) => {
   );
 };
 
-const Content = ({ children }: PropsWithChildren<{}>) => {
+const Content = ({ className, ...props }: Popover.PopoverContentProps) => {
   return (
     <Popover.Portal>
-      <Popover.Content className="vstack rounded-3 border border-solid border-border bg-white drop-shadow-popover">
-        {children}
-      </Popover.Content>
+      <Popover.Content
+        {...props}
+        className={cn('vstack rounded-3 border border-solid border-border bg-white drop-shadow-popover', className)}
+      />
     </Popover.Portal>
   );
 };

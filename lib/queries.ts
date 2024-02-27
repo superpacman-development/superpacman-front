@@ -88,9 +88,8 @@ type ApartmentsRequest = {
   size: number;
   sort: string[];
 };
-
 export async function getApartments(params: ApartmentsRequest) {
   const url = makeRequestUrlWithQueryString('/apartments', params);
-  const response = await createFetchWithAuth<BaseResponse<any>>(url);
+  const response = await createFetchWithAuth<BaseResponse<ApartmentsResponse>>(url);
   return response.data;
 }
