@@ -2,7 +2,7 @@
 
 import { useElementSizeAsCssVariables } from '@/hooks/useElementSizeAsCssVariables';
 import { cn } from '@/utils/cn';
-import { ComponentPropsWithRef } from 'react';
+import { ComponentPropsWithRef, PropsWithChildren } from 'react';
 // const Root = Popover.Root;
 // const Trigger = Popover.Trigger;
 // const Portal = Popover.Portal;
@@ -49,12 +49,12 @@ export const Drawer = {
       <DrawerComponent.Content
         {...props}
         ref={ref}
-        className={cn(
-          'fixed bottom-[0] right-[0] mt-24 flex h-full w-[30%] flex-col overflow-hidden bg-white px-26 py-30',
-          props.className,
-        )}
+        className={cn('fixed bottom-[0] right-[0] top-[0] h-full w-[30%] overflow-x-hidden bg-white', props.className)}
         style={{ boxShadow: '-4px 0px 12px rgba(0, 0, 0, 0.25)' }}
       />
     );
   },
+  Container: ({ children, className }: PropsWithChildren<{ className?: string }>) => (
+    <div className={cn('mt-24 flex flex-col px-26 py-30', className)}>{children}</div>
+  ),
 };

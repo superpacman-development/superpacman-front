@@ -2,54 +2,60 @@
 
 import { AddressResponse } from '@/lib/queries';
 import { Floating } from '@components/List';
-import { VStack } from '@components/Stack';
-import { usePathname, useRouter } from 'next/navigation';
-import { ChangeEventHandler } from 'react';
+import React, { PropsWithChildren, ReactNode, useContext } from 'react';
 
-export const CityFloating = ({
-  data,
-  name,
-  selected,
-  getLabel,
-  setValue,
-  type = 'radio',
-}: {
+type CityFloatingContextType = {
+  selected?: string | string[] | null;
   data: AddressResponse;
-  name: string;
-  selected?: string | null;
-  getLabel?: (city?: AddressResponse[number]) => string;
-  setValue?: (value: string) => string;
-  type?: 'radio' | 'checkbox';
-}) => {
-  const router = useRouter();
-  const pathname = usePathname();
+  getLabel: (city?: AddressResponse[number]) => string | undefined;
+};
+const CityFloatingContext = React.createContext<CityFloatingContextType>({ data: [], getLabel: () => '' });
+const useCityFloatingContext = () => {
+  const context = useContext(CityFloatingContext);
+  if (!context) {
+    throw new Error('Cannot find CityFloatingContext');
+  }
+  return context;
+};
 
-  const onChange: ChangeEventHandler<HTMLInputElement> = (e) => {
-    const value = e.target.value;
-    const queryString = setValue?.(value) ?? '';
-    router.replace(pathname + queryString);
-  };
+const Root = ({ children, ...props }: PropsWithChildren<CityFloatingContextType>) => {
+  return (
+    <CityFloatingContext.Provider value={props}>
+      <Floating.Root>{children}</Floating.Root>
+    </CityFloatingContext.Provider>
+  );
+};
 
-  const selectedLabel = getLabel?.(data.find((city) => city.code === selected));
+const Trigger = ({ children }: PropsWithChildren<{}>) => {
+  const { data, selected, getLabel } = useCityFloatingContext();
+  const selectedLabel = Array.isArray(selected)
+    ? selected.length > 0
+      ? `${getLabel(data.find((city) => city.code === selected[0]))}${selected.length > 1 ? ` 외 ${selected.length - 1}개` : ''}`
+      : undefined
+    : getLabel(data.find((city) => city.code === selected));
 
   return (
-    <Floating.Root>
-      <Floating.Trigger className="cursor-pointer rounded-3 border border-solid border-border bg-lightGray-30 px-8 py-6 shadow-shadow">
-        <div>{selectedLabel}</div>
-      </Floating.Trigger>
-      <Floating.Content className="mt-8" align="start">
-        <VStack>
-          <div className="m-12">시도</div>
-          <div className="grid grid-cols-3">
-            {data.map((city) => (
-              <label key={city.code} className="hstack h-28 items-center gap-4 px-8 py-6">
-                <input type={type} name={name} value={city.code} onChange={onChange} checked={city.code === selected} />
-                {getLabel?.(city)}
-              </label>
-            ))}
-          </div>
-        </VStack>
-      </Floating.Content>
-    </Floating.Root>
+    <Floating.Trigger className="cursor-pointer rounded-3 border border-solid border-border bg-lightGray-30 px-8 py-6 shadow-shadow">
+      <div>{selectedLabel ?? children}</div>
+    </Floating.Trigger>
   );
+};
+
+const Content = ({ label, children }: { label: string; children: (context: CityFloatingContextType) => ReactNode }) => {
+  const context = useCityFloatingContext();
+
+  return (
+    <Floating.Content className="mt-8" align="start">
+      <div className="h-fit overflow-auto">
+        <div className="m-12">{label}</div>
+        <div className="grid grid-cols-3">{children(context)}</div>
+      </div>
+    </Floating.Content>
+  );
+};
+
+export const CityFloating = {
+  Root,
+  Trigger,
+  Content,
 };
