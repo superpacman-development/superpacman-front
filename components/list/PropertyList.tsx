@@ -1,7 +1,10 @@
 'use client';
+import { PropertyDetail } from '@/components/list/PropertyDetail';
 import { ApartmentsResponse } from '@/lib/queries';
+import { Button } from '@components/Button';
 import { Drawer } from '@components/Drawer';
 import { Floating, List } from '@components/List';
+import { HStack, VStack } from '@components/Stack';
 import { createColumnHelper } from '@tanstack/table-core';
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
 
@@ -137,7 +140,8 @@ const columns = [
   {
     id: 'link',
     maxSize: 30,
-    cell: () => {
+    cell: ({ row }) => {
+      const data = row.original;
       return (
         <div className="text-blue-50">
           <Drawer.Root>
@@ -145,7 +149,19 @@ const columns = [
               <ArrowOutwardIcon />
             </Drawer.Trigger>
             <Drawer.Portal>
-              <Drawer.Content>hihi</Drawer.Content>
+              <Drawer.Content>
+                <Drawer.Container>
+                  <PropertyDetail data={data} />
+                </Drawer.Container>
+
+                <VStack className="sticky bottom-[0] left-[0] right-[0] gap-53 bg-lightGray-20 px-40 py-32">
+                  <div className="break-keep text-blue-50">매물을 구매하면 상세한 정보를 확인할 수 있습니다.</div>
+                  <HStack className="gap-8">
+                    <Button>매물 선택하기</Button>
+                    <Button>장바구니에 넣기</Button>
+                  </HStack>
+                </VStack>
+              </Drawer.Content>
             </Drawer.Portal>
           </Drawer.Root>
         </div>

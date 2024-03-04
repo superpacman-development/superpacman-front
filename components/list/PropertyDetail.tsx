@@ -1,6 +1,7 @@
 'use client';
 import { ApartmentsResponse } from '@/lib/queries';
 import { HStack, VStack } from '@components/Stack';
+import { Table } from '@components/Table';
 
 export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][number] }) => {
   return (
@@ -58,18 +59,42 @@ export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][n
         <VStack className="gap-6">
           <div>단지정보</div>
 
-          <VStack>
-            <HStack>
-              <div className="flex-shrink-0 flex-grow-0 basis-[2]">등록일</div>
-              <div className="flex-grow-0 basis-[calc(100%_/_2)]">{data.confirmationDate}</div>
-              <div className="flex-shrink-0 flex-grow-0 basis-[2]">확인일</div>
-              <div className="flex-grow basis-[calc(100%_/_2)]">{data.confirmationDate}</div>
-            </HStack>
-            <HStack>
-              <div className="flex-shrink-0 flex-grow-0 basis-[2]">세대수</div>
-              <div className="flex-grow basis-[calc(100%_/_2)]">{data.confirmationDate}</div>
-            </HStack>
-          </VStack>
+          <Table.Root>
+            <Table.Row>
+              <Table.Head>등록일</Table.Head>
+              <Table.Cell>?</Table.Cell>
+              <Table.Head>확인일</Table.Head>
+              <Table.Cell>{data.confirmationDate}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Head>세대수</Table.Head>
+              <Table.Cell>{data.unitCount}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Head>주소</Table.Head>
+              <Table.Cell>{data.doroAddress}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Head>관리비</Table.Head>
+              <Table.Cell>{data.managementCost}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Head>주차대수</Table.Head>
+              <Table.Cell>{data.numberOfParkingSpaces}</Table.Cell>
+              <Table.Head>준공연도</Table.Head>
+              <Table.Cell>?</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Head>동수</Table.Head>
+              <Table.Cell>{data.dongCount}</Table.Cell>
+              <Table.Head>건설사</Table.Head>
+              <Table.Cell>{data.developer}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Head>비고/특징</Table.Head>
+              <Table.Cell>{data.memo}</Table.Cell>
+            </Table.Row>
+          </Table.Root>
         </VStack>
       </VStack>
     </div>
