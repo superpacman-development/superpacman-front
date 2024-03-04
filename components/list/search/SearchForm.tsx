@@ -1,9 +1,9 @@
 'use client';
 
 import { CityFloating } from '@/components/list/search/CitySelect';
+import { InputCheckbox } from '@/components/list/search/InputCheckbox';
 import { ResetButton } from '@/components/list/search/ResetButton';
 import { AddressResponse } from '@/lib/queries';
-import { InputCheckbox } from '@components/Checkbox';
 import { Divider } from '@components/Divider';
 import { HStack } from '@components/Stack';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
@@ -116,9 +116,9 @@ export const SearchForm = ({
       <Divider width={2} />
 
       <HStack className="gap-8">
-        <InputCheckbox label="매매" />
-        <InputCheckbox label="전세" />
-        <InputCheckbox label="월세" />
+        <InputCheckbox label="매매" name="SALE" />
+        <InputCheckbox label="전세" name="MONTHLY_RENT" />
+        <InputCheckbox label="월세" name="RENT" />
       </HStack>
 
       <ResetButton />

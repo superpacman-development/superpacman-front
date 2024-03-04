@@ -1,7 +1,7 @@
 import { cn } from '@/utils/cn';
+import { Checkbox } from '@components/Checkbox';
 import * as Popover from '@radix-ui/react-popover';
 import ArrowTopIcon from '~/assets/arrow-top.svg';
-import { Checkbox } from '../Checkbox/Checkbox';
 import { HStack, VStack } from '../Stack';
 
 const Root = (props: Popover.PopoverProps) => {

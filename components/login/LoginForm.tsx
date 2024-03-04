@@ -2,7 +2,7 @@
 
 import { authenticate } from '@/lib/actions';
 import { Button } from '@components/Button';
-import { Checkbox } from '@components/Checkbox/Checkbox';
+import { Checkbox } from '@components/Checkbox';
 import { Input } from '@components/Input';
 import { VStack } from '@components/Stack';
 import { zodResolver } from '@hookform/resolvers/zod';
