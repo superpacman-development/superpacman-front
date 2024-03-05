@@ -5,7 +5,7 @@ import { Button } from '@components/Button';
 import { Drawer } from '@components/Drawer';
 import { Floating, List } from '@components/List';
 import { HStack, VStack } from '@components/Stack';
-import { createColumnHelper } from '@tanstack/table-core';
+import { Row, createColumnHelper } from '@tanstack/table-core';
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
 
 const columnHelper = createColumnHelper<ApartmentsResponse['content'][number]>();
@@ -140,7 +140,7 @@ const columns = [
   {
     id: 'link',
     maxSize: 30,
-    cell: ({ row }) => {
+    cell: ({ row }: { row: Row<ApartmentsResponse['content'][number]> }) => {
       const data = row.original;
       return (
         <div className="text-blue-50">
