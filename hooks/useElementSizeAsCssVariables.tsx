@@ -31,7 +31,6 @@ export const useElementSizeAsCssVariables = <T extends HTMLElement>({
         const { inlineSize: width, blockSize: height } = entry.borderBoxSize.at(0) ?? {};
 
         if (widthVariableName && width !== undefined) {
-          console.log(width);
           window.document.documentElement.style.setProperty(widthVariableName, `${width}px`);
         }
 

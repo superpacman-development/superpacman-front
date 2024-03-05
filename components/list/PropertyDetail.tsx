@@ -1,5 +1,6 @@
 'use client';
 import { ApartmentsResponse } from '@/lib/queries';
+import { formatDate } from '@/utils/format';
 import { HStack, VStack } from '@components/Stack';
 import { Table } from '@components/Table';
 
@@ -62,13 +63,15 @@ export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][n
           <Table.Root>
             <Table.Row>
               <Table.Head>등록일</Table.Head>
-              <Table.Cell>?</Table.Cell>
-              <Table.Head>확인일</Table.Head>
-              <Table.Cell>{data.confirmationDate}</Table.Cell>
+              <Table.Cell>{formatDate(data.createDatetime)}</Table.Cell>
+              <Table.Head>최종확인일</Table.Head>
+              <Table.Cell>
+                {formatDate(data.confirmationDate)} {data.confirmationType}
+              </Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Head>세대수</Table.Head>
-              <Table.Cell>{data.unitCount}</Table.Cell>
+              <Table.Cell>총 {data.unitCount}세대</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Head>주소</Table.Head>
@@ -80,19 +83,19 @@ export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][n
             </Table.Row>
             <Table.Row>
               <Table.Head>주차대수</Table.Head>
-              <Table.Cell>{data.numberOfParkingSpaces}</Table.Cell>
+              <Table.Cell>총 {data.numberOfParkingSpaces}대</Table.Cell>
               <Table.Head>준공연도</Table.Head>
               <Table.Cell>?</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Head>동수</Table.Head>
-              <Table.Cell>{data.dongCount}</Table.Cell>
+              <Table.Cell>{data.dongCount}개</Table.Cell>
               <Table.Head>건설사</Table.Head>
               <Table.Cell>{data.developer}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Head>비고/특징</Table.Head>
-              <Table.Cell>{data.memo}</Table.Cell>
+              <Table.Cell className="whitespace-pre-line">{data.memo}</Table.Cell>
             </Table.Row>
           </Table.Root>
         </VStack>

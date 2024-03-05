@@ -14,12 +14,18 @@ export const TableRow = (props: ComponentProps<typeof HStack>) => (
 );
 
 export const TableHead = (props: HTMLAttributes<HTMLDivElement>) => (
-  <div className="flex-shrink-0 flex-grow-0 basis-[var(--table-head-size)] bg-lightGray-30 p-7" {...props} />
+  <div
+    {...props}
+    className={cn('flex-shrink-0 flex-grow-0 basis-[var(--table-head-size)] bg-lightGray-30 p-7', props.className)}
+  />
 );
 
 export const TableCell = (props: HTMLAttributes<HTMLDivElement>) => (
   <div
-    className="flex-grow-0 basis-[calc(100%_/_var(--table-cell-count)_-_var(--table-head-size))] p-7 last:flex-grow"
     {...props}
+    className={cn(
+      'flex-grow-0 basis-[calc(100%_/_var(--table-cell-count)_-_var(--table-head-size))] p-7 last:flex-grow',
+      props.className,
+    )}
   />
 );
