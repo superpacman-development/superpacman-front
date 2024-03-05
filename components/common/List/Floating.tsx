@@ -1,6 +1,7 @@
 import { cn } from '@/utils/cn';
 import { Checkbox } from '@components/Checkbox';
 import * as Popover from '@radix-ui/react-popover';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import ArrowTopIcon from '~/assets/arrow-top.svg';
 import { HStack, VStack } from '../Stack';
 
@@ -29,12 +30,27 @@ const Content = ({ className, ...props }: Popover.PopoverContentProps) => {
   );
 };
 
-const Sort = ({ options }: { options: { text: string; sort: 'asc' | 'desc' }[] }) => {
+const Sort = ({ id, options }: { id: string; options: { text: string; sort: 'asc' | 'desc' }[] }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const handleChangeSort = (id: string, type: 'asc' | 'desc') => {
+    const search = new URLSearchParams(searchParams);
+    search.set('sort', [id, type].join(','));
+    const query = search.toString() ? `?${search.toString()}` : '';
+    router.replace(`${pathname}${query}`);
+  };
+
   return (
     <VStack className="m-8 w-140">
       <p className="h-18 text-12 text-darkGray-40">정렬 순서</p>
       {options.map((option) => (
-        <p className="hstack h-28 items-center font-medium text-darkGray-60" key={option.text}>
+        <p
+          className="hstack h-28 cursor-pointer items-center font-medium text-darkGray-60"
+          key={option.text}
+          onClick={() => handleChangeSort(id, option.sort)}
+        >
           {option.text}
         </p>
       ))}

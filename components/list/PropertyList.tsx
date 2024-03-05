@@ -17,6 +17,7 @@ const columns = [
         <Floating.Trigger>건물이름</Floating.Trigger>
         <Floating.Content>
           <Floating.Sort
+            id="apartName"
             options={[
               { text: '가나다 오름차순', sort: 'asc' },
               { text: '가나다 내림차순', sort: 'desc' },
@@ -32,6 +33,7 @@ const columns = [
         <Floating.Trigger>동</Floating.Trigger>
         <Floating.Content>
           <Floating.Sort
+            id="dong"
             options={[
               { text: '오름차순', sort: 'asc' },
               { text: '내림차순', sort: 'desc' },
@@ -41,12 +43,13 @@ const columns = [
       </Floating.Root>
     ),
   }),
-  columnHelper.accessor('exclusiveArea', {
+  columnHelper.accessor('supplyArea', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>공급면적</Floating.Trigger>
         <Floating.Content>
           <Floating.Sort
+            id="supplyArea"
             options={[
               { text: '오름차순', sort: 'asc' },
               { text: '내림차순', sort: 'desc' },
@@ -56,12 +59,13 @@ const columns = [
       </Floating.Root>
     ),
   }),
-  columnHelper.accessor('floorType', {
+  columnHelper.accessor('ho', {
     header: () => (
       <Floating.Root>
-        <Floating.Trigger>층고</Floating.Trigger>
+        <Floating.Trigger>층</Floating.Trigger>
         <Floating.Content>
           <Floating.Sort
+            id="ho"
             options={[
               { text: '고층 순', sort: 'desc' },
               { text: '저층 순', sort: 'asc' },
@@ -86,6 +90,7 @@ const columns = [
         <Floating.Trigger>희망금액</Floating.Trigger>
         <Floating.Content>
           <Floating.Sort
+            id="price"
             options={[
               { text: '금액 높은 순', sort: 'desc' },
               { text: '금액 낮은 순', sort: 'asc' },
@@ -101,6 +106,7 @@ const columns = [
         <Floating.Trigger>입주가능일</Floating.Trigger>
         <Floating.Content>
           <Floating.Sort
+            id="availableMoveInDate"
             options={[
               { text: '가까운 일정 순', sort: 'asc' },
               { text: '먼 일정 순', sort: 'desc' },
@@ -122,12 +128,13 @@ const columns = [
   columnHelper.accessor('memo', {
     header: () => '특징',
   }),
-  columnHelper.accessor('confirmationDate', {
+  columnHelper.accessor('createDatetime', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>등록일</Floating.Trigger>
         <Floating.Content>
           <Floating.Sort
+            id="createDatetime"
             options={[
               { text: '최신 순', sort: 'desc' },
               { text: '오래된 순', sort: 'asc' },

@@ -46,8 +46,8 @@ export type ApartmentsResponse = {
     availableMoveInDate: string;
     memo: string;
     managementCost: string;
-    confirmationDate: string; // ?
-    confirmationType: string;
+    confirmationDate?: string; // ?
+    confirmationType?: string;
     apartName: string;
     dongAddress: string;
     area: string;
@@ -63,6 +63,7 @@ export type ApartmentsResponse = {
     zipcode: string;
     dongCode: string;
     numberOfParkingSpaces: number;
+    createDatetime?: string;
   }[];
   pageable: {
     pageNumber: number;
@@ -87,7 +88,10 @@ type ApartmentsRequest = {
   page: number;
   size: number;
   sort: string[];
+  dongCodes?: string;
+  contractTypes?: string;
 };
+
 export async function getApartments(params: ApartmentsRequest) {
   const url = makeRequestUrlWithQueryString('/apartments', params);
   const response = await createFetchWithAuth<BaseResponse<ApartmentsResponse>>(url);

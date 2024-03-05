@@ -7,7 +7,13 @@ import { VStack } from '@components/Stack';
 export default async function List({
   searchParams,
 }: {
-  searchParams: { bigCity?: string; middleCity?: string; littleCity?: string };
+  searchParams: {
+    bigCity?: string;
+    middleCity?: string;
+    littleCity?: string | string[];
+    contractTypes?: string | string[];
+    sort?: string;
+  };
 }) {
   const bigCities = await getAddress({ addressType: 'BIG_CITY' });
   const middleCities = !!searchParams?.bigCity
@@ -16,7 +22,13 @@ export default async function List({
   const littleCities = !!searchParams?.middleCity
     ? await getAddress({ addressType: 'LITTLE_CITY', middleCityAddressCode: searchParams.middleCity })
     : [];
-  const apartments = await getApartments({ page: 0, size: 10, sort: [] });
+  const apartments = await getApartments({
+    page: 0,
+    size: 10,
+    sort: searchParams.sort ? [searchParams.sort] : [],
+    dongCodes: searchParams?.littleCity ? searchParams.littleCity.toString() : undefined,
+    contractTypes: searchParams?.contractTypes ? searchParams.contractTypes.toString() : undefined,
+  });
 
   return (
     <VStack style={{ width: 'calc(100% - var(--drawer-content-width, 0))' }}>

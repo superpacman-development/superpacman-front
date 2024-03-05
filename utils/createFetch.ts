@@ -54,7 +54,10 @@ export const createFetch = httpClient({
   headers: { 'Content-Type': 'application/json' },
   interceptors: {
     request(request, init) {
-      process.env.NODE_ENV === 'development' && console.log('Request:', request, init);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('====================================================================');
+        console.log('Request:', request, init);
+      }
       return init;
     },
     async response(response) {
@@ -64,7 +67,7 @@ export const createFetch = httpClient({
 
       try {
         const data = await response.json();
-        process.env.NODE_ENV === 'development' && console.log('Response:', data);
+        // process.env.NODE_ENV === 'development' && console.log('Response:', data);
         return data;
       } catch (e) {
         // eslint-disable-next-line no-console
@@ -76,8 +79,9 @@ export const createFetch = httpClient({
 });
 
 type ParameterValue = string | number | ParameterValue[];
-export function makeRequestUrlWithQueryString(url: string, params?: Record<string, ParameterValue>) {
-  const query = new URLSearchParams(params as Record<string, string>).toString();
+export function makeRequestUrlWithQueryString(url: string, params?: Record<string, ParameterValue | null | undefined>) {
+  const objectWithoutOptionalValue = JSON.parse(JSON.stringify(params));
+  const query = new URLSearchParams(objectWithoutOptionalValue as Record<string, string>).toString();
   const queryString = query ? `?${query}` : '';
   return url + queryString;
 }
