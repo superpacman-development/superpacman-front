@@ -2,7 +2,7 @@ import { cn } from '@/utils/cn';
 import { Checkbox } from '@components/Checkbox';
 import * as Popover from '@radix-ui/react-popover';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import ArrowTopIcon from '~/assets/arrow-top.svg';
+import ArrowBottomIcon from '~/assets/arrow-bottom.svg';
 import { HStack, VStack } from '../Stack';
 
 const Root = (props: Popover.PopoverProps) => {
@@ -11,9 +11,9 @@ const Root = (props: Popover.PopoverProps) => {
 
 const Trigger = ({ children, ...props }: Popover.PopoverTriggerProps) => {
   return (
-    <Popover.Trigger {...props}>
+    <Popover.Trigger {...props} className={cn('group', props.className)}>
       <HStack className="items-center gap-4">
-        {children} <ArrowTopIcon />
+        {children} <ArrowBottomIcon />
       </HStack>
     </Popover.Trigger>
   );
@@ -46,13 +46,14 @@ const Sort = ({ id, options }: { id: string; options: { text: string; sort: 'asc
     <VStack className="m-8 w-140">
       <p className="h-18 text-12 text-darkGray-40">정렬 순서</p>
       {options.map((option) => (
-        <p
-          className="hstack h-28 cursor-pointer items-center font-medium text-darkGray-60"
-          key={option.text}
-          onClick={() => handleChangeSort(id, option.sort)}
-        >
-          {option.text}
-        </p>
+        <Popover.Close asChild key={option.text}>
+          <p
+            className="hstack h-28 cursor-pointer items-center font-medium text-darkGray-60"
+            onClick={() => handleChangeSort(id, option.sort)}
+          >
+            {option.text}
+          </p>
+        </Popover.Close>
       ))}
     </VStack>
   );
