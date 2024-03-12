@@ -167,40 +167,28 @@ export const PropertyList = ({ data }: { data: ApartmentsResponse }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Row<ApartmentsResponse['content'][number]> | null>(null);
 
+  const handleClickRow = (data: Row<ApartmentsResponse['content'][number]>) => {
+    setSelected(data);
+    setOpen(true);
+
+    setTimeout(() => {
+      // 새로운 row 클릭 시마다 drawer 스크롤 맨 위로 이동
+      const drawerContentRef = document.querySelector('[vaul-drawer]');
+      if (drawerContentRef) {
+        drawerContentRef.scrollTo({ top: 0 });
+      }
+    }, 0);
+  };
+
   return (
     <>
-      <List
-        columns={columns}
-        data={data.content}
-        onClickRow={(data) => {
-          setSelected(data);
-          setOpen(true);
-        }}
-      />
+      <List columns={columns} data={data.content} onClickRow={handleClickRow} />
 
       {selected && (
-        <Drawer.Root
-          open={open}
-          onOpenChange={(open) => {
-            if (open) {
-              setTimeout(() => {
-                document.body.style.pointerEvents = '';
-                document.body.style.position = 'static';
-                document.body.classList.add('no-scrollbar');
-              }, 0);
-            }
-          }}
-        >
+        <Drawer.Root open={open} onOpenChange={setOpen} modal={false} dismissible={false}>
           <Drawer.Portal>
             <Drawer.Content>
-              <Drawer.Close
-                onClick={() => {
-                  setOpen(false);
-                  document.body.classList.remove('no-scrollbar');
-                }}
-              >
-                닫기
-              </Drawer.Close>
+              <Drawer.Close>닫기</Drawer.Close>
               <Drawer.Container>
                 <PropertyDetail data={selected.original} />
               </Drawer.Container>
