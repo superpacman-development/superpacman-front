@@ -1,10 +1,9 @@
 'use client';
-import { ApartmentsResponse } from '@/lib/queries';
-import { formatDate } from '@/utils/format';
+import { Property } from '@/components/propertyList/Property';
 import { HStack, VStack } from '@components/Stack';
 import { Table } from '@components/Table';
 
-export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][number] }) => {
+export const PropertyDetail = ({ data }: { data: Property }) => {
   return (
     <div>
       <VStack className="gap-40">
@@ -19,31 +18,28 @@ export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][n
         <VStack className="gap-6 ">
           <div>매물정보</div>
           <HStack className="gap-20">
-            <div className="text-22 font-bold text-[#1939AC]">{data.dong}</div>
-            <div className="text-22 font-bold text-[#1939AC]">{data.floorType}</div>
-            <div className="text-22 font-bold text-[#1939AC]">{data.directionOfHouse}</div>
-            <div className="text-22 font-bold text-[#1939AC]">{data.floorPlanType}</div>
+            {data.info.map((text, idx) => (
+              <div className="text-22 font-bold text-[#1939AC]" key={idx}>
+                {text}
+              </div>
+            ))}
           </HStack>
         </VStack>
 
         <div className="cols grid grid-cols-2 gap-y-38">
           <VStack className="gap-6">
             <div>공급/전용면적</div>
-            <div className="text-22 font-bold text-[#1939AC]">
-              {data.supplyArea}/{data.exclusiveArea}
-            </div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.areaDescription}</div>
           </VStack>
 
           <VStack className="gap-6">
             <div>전용률</div>
-            <div className="text-22 font-bold text-[#1939AC]">
-              {Math.round((Number(data.exclusiveArea) / Number(data.supplyArea)) * 100)}%
-            </div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.exclusiveRate}</div>
           </VStack>
 
           <VStack className="gap-6">
             <div>희망가격</div>
-            <div className="text-22 font-bold text-[#1939AC]">{data.price}</div>
+            <div className="whitespace-pre-line text-22 font-bold text-[#1939AC]">{data.hopePrice}</div>
           </VStack>
 
           <VStack className="gap-6">
@@ -65,15 +61,13 @@ export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][n
           <Table.Root>
             <Table.Row>
               <Table.Head>등록일</Table.Head>
-              <Table.Cell>{formatDate(data.createDatetime)}</Table.Cell>
+              <Table.Cell>{data.createDatetime}</Table.Cell>
               <Table.Head>최종확인일</Table.Head>
-              <Table.Cell>
-                {formatDate(data.confirmationDate)} {data.confirmationType}
-              </Table.Cell>
+              <Table.Cell>{data.finalConformationDate}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Head>세대수</Table.Head>
-              <Table.Cell>총 {data.unitCount}세대</Table.Cell>
+              <Table.Cell>{data.unitCount}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Head>주소</Table.Head>
@@ -85,13 +79,13 @@ export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][n
             </Table.Row>
             <Table.Row>
               <Table.Head>주차대수</Table.Head>
-              <Table.Cell>총 {data.numberOfParkingSpaces}대</Table.Cell>
+              <Table.Cell>{data.numberOfParkingSpaces}</Table.Cell>
               <Table.Head>준공연도</Table.Head>
-              <Table.Cell>?</Table.Cell>
+              <Table.Cell>-</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Head>동수</Table.Head>
-              <Table.Cell>{data.dongCount}개</Table.Cell>
+              <Table.Cell>{data.dongCount}</Table.Cell>
               <Table.Head>건설사</Table.Head>
               <Table.Cell>{data.developer}</Table.Cell>
             </Table.Row>

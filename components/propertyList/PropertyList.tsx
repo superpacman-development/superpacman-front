@@ -1,7 +1,7 @@
 'use client';
+import { Property } from '@/components/propertyList/Property';
 import { PropertyDetail } from '@/components/propertyList/PropertyDetail';
 import { ApartmentsResponse } from '@/lib/queries';
-import { formatDate, formatString } from '@/utils/format';
 import { Button } from '@components/Button';
 import { Drawer } from '@components/Drawer';
 import { Floating, List } from '@components/List';
@@ -10,7 +10,7 @@ import { Row, createColumnHelper } from '@tanstack/table-core';
 import { useState } from 'react';
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
 
-const columnHelper = createColumnHelper<ApartmentsResponse['content'][number]>();
+const columnHelper = createColumnHelper<Property>();
 
 const columns = [
   columnHelper.accessor('apartName', {
@@ -44,7 +44,6 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
-    cell: ({ cell }) => formatString(cell.getValue(), (dong) => `${dong}동`),
   }),
   columnHelper.accessor('supplyArea', {
     header: () => (
@@ -61,10 +60,8 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
-
-    cell: ({ cell }) => formatString(cell.getValue(), (dong) => `${dong}㎡`),
   }),
-  columnHelper.accessor('ho', {
+  columnHelper.accessor('floor', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>층</Floating.Trigger>
@@ -89,7 +86,7 @@ const columns = [
       </Floating.Root>
     ),
   }),
-  columnHelper.accessor('price', {
+  columnHelper.accessor('hopePrice', {
     header: () => (
       <Floating.Root>
         <Floating.Trigger>희망금액</Floating.Trigger>
@@ -148,7 +145,6 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
-    cell: ({ row }) => formatDate(row.original.createDatetime),
   }),
   {
     id: 'link',
@@ -165,9 +161,10 @@ const columns = [
 
 export const PropertyList = ({ data }: { data: ApartmentsResponse }) => {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<Row<ApartmentsResponse['content'][number]> | null>(null);
+  const [selected, setSelected] = useState<Row<Property> | null>(null);
+  const properties = data.content.map((data) => new Property(data));
 
-  const handleClickRow = (data: Row<ApartmentsResponse['content'][number]>) => {
+  const handleClickRow = (data: Row<Property>) => {
     setSelected(data);
     setOpen(true);
 
@@ -182,7 +179,7 @@ export const PropertyList = ({ data }: { data: ApartmentsResponse }) => {
 
   return (
     <>
-      <List columns={columns} data={data.content} onClickRow={handleClickRow} />
+      <List columns={columns} data={properties} onClickRow={handleClickRow} />
 
       {selected && (
         <Drawer.Root open={open} onOpenChange={setOpen} modal={false} dismissible={false}>
