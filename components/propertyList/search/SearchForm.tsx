@@ -1,8 +1,8 @@
 'use client';
 
-import { CityFloating } from '@/components/list/search/CitySelect';
-import { InputCheckbox } from '@/components/list/search/InputCheckbox';
-import { ResetButton } from '@/components/list/search/ResetButton';
+import { CityFloating } from '@/components/propertyList/search/CitySelect';
+import { InputCheckbox } from '@/components/propertyList/search/InputCheckbox';
+import { ResetButton } from '@/components/propertyList/search/ResetButton';
 import { AddressResponse } from '@/lib/queries';
 import { Divider } from '@components/Divider';
 import { HStack } from '@components/Stack';
@@ -66,7 +66,6 @@ export const SearchForm = ({
                       const params = new URLSearchParams(searchParams);
                       params.set('middleCity', e.target.value);
                       params.delete('littleCity');
-
                       handleRoute(params);
                     }}
                   />
@@ -96,8 +95,6 @@ export const SearchForm = ({
                       const newArray = selectedArray.includes(value)
                         ? selectedArray.filter((code) => code !== value)
                         : [...selectedArray, value];
-
-                      console.log({ value, selected, selectedArray, newArray });
 
                       const params = new URLSearchParams(searchParams);
                       params.delete('littleCity');

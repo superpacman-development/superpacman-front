@@ -1,5 +1,5 @@
-import { PropertyList } from '@/components/list/PropertyList';
-import { SearchForm } from '@/components/list/search/SearchForm';
+import { PropertyList } from '@/components/propertyList/PropertyList';
+import { SearchForm } from '@/components/propertyList/search/SearchForm';
 
 import { getAddress, getApartments } from '@/lib/queries';
 import { VStack } from '@components/Stack';

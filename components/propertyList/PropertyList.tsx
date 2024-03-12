@@ -1,5 +1,5 @@
 'use client';
-import { PropertyDetail } from '@/components/list/PropertyDetail';
+import { PropertyDetail } from '@/components/propertyList/PropertyDetail';
 import { ApartmentsResponse } from '@/lib/queries';
 import { formatDate, formatString } from '@/utils/format';
 import { Button } from '@components/Button';
