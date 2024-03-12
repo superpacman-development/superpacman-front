@@ -9,44 +9,46 @@ export const PropertyDetail = ({ data }: { data: ApartmentsResponse['content'][n
     <div>
       <VStack className="gap-40">
         <VStack className="gap-6">
-          <HStack>
+          <HStack className="text-darkGray-40">
             <div>매물번호</div>
             <div>{data.id}</div>
           </HStack>
-          <h2>{data.apartName}</h2>
+          <h2 className="text-32 font-bold text-darkGray-70">{data.apartName}</h2>
         </VStack>
 
-        <VStack className="gap-6">
+        <VStack className="gap-6 ">
           <div>매물정보</div>
           <HStack className="gap-20">
-            <div>{data.dong}</div>
-            <div>{data.floorType}</div>
-            <div>{data.directionOfHouse}</div>
-            <div>{data.floorPlanType}</div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.dong}</div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.floorType}</div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.directionOfHouse}</div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.floorPlanType}</div>
           </HStack>
         </VStack>
 
-        <div className="grid grid-cols-2">
+        <div className="cols grid grid-cols-2 gap-y-38">
           <VStack className="gap-6">
             <div>공급/전용면적</div>
-            <div>
+            <div className="text-22 font-bold text-[#1939AC]">
               {data.supplyArea}/{data.exclusiveArea}
             </div>
           </VStack>
 
           <VStack className="gap-6">
             <div>전용률</div>
-            <div>{Math.round(Number(data.exclusiveArea) / Number(data.supplyArea))}%</div>
+            <div className="text-22 font-bold text-[#1939AC]">
+              {Math.round((Number(data.exclusiveArea) / Number(data.supplyArea)) * 100)}%
+            </div>
           </VStack>
 
           <VStack className="gap-6">
             <div>희망가격</div>
-            <div>{data.price}</div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.price}</div>
           </VStack>
 
           <VStack className="gap-6">
             <div>입주가능일</div>
-            <div>{data.availableMoveInDate}</div>
+            <div className="text-22 font-bold text-[#1939AC]">{data.availableMoveInDate}</div>
           </VStack>
         </div>
 

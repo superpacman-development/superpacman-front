@@ -7,6 +7,7 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  Row,
   RowSelectionState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -15,7 +16,15 @@ import { Divider } from '../Divider';
 import { HStack, VStack } from '../Stack';
 import { Pagination } from './Pagination';
 
-export const List = <T extends any>({ columns, data }: { columns: ColumnDef<T, any>[]; data: T[] }) => {
+export const List = <T extends any>({
+  columns,
+  data,
+  onClickRow,
+}: {
+  columns: ColumnDef<T, any>[];
+  data: T[];
+  onClickRow?: (row: Row<T>) => void;
+}) => {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const table = useReactTable({
@@ -59,9 +68,11 @@ export const List = <T extends any>({ columns, data }: { columns: ColumnDef<T, a
           <HStack
             key={row.id}
             className={cn(
-              'w-full items-center rounded-3 bg-lightGray-10 py-16 outline outline-1 outline-deepNeutrals-30',
+              'w-full items-center rounded-3 bg-lightGray-10 py-16 outline outline-1 outline-deepNeutrals-30 hover:bg-lightGray-30 hover:outline-deepNeutrals-40',
               row.getIsSelected() && 'outline-blue-50',
+              onClickRow && 'cursor-pointer',
             )}
+            onClick={() => onClickRow?.(row)}
           >
             <div className="hstack w-70 flex-none">
               <Checkbox
@@ -69,6 +80,7 @@ export const List = <T extends any>({ columns, data }: { columns: ColumnDef<T, a
                 disabled={!row.getCanSelect()}
                 onCheckedChange={(checked) => (checked === 'indeterminate' ? undefined : row.toggleSelected(checked))}
                 className="pl-16"
+                onClick={(e) => e.stopPropagation()}
               />
               <Divider className="ml-16" />
             </div>

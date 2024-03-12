@@ -1,12 +1,13 @@
 'use client';
 import { PropertyDetail } from '@/components/list/PropertyDetail';
 import { ApartmentsResponse } from '@/lib/queries';
-import { formatDate } from '@/utils/format';
+import { formatDate, formatString } from '@/utils/format';
 import { Button } from '@components/Button';
 import { Drawer } from '@components/Drawer';
 import { Floating, List } from '@components/List';
 import { HStack, VStack } from '@components/Stack';
 import { Row, createColumnHelper } from '@tanstack/table-core';
+import { useState } from 'react';
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
 
 const columnHelper = createColumnHelper<ApartmentsResponse['content'][number]>();
@@ -43,6 +44,7 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    cell: ({ cell }) => formatString(cell.getValue(), (dong) => `${dong}동`),
   }),
   columnHelper.accessor('supplyArea', {
     header: () => (
@@ -59,6 +61,8 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+
+    cell: ({ cell }) => formatString(cell.getValue(), (dong) => `${dong}㎡`),
   }),
   columnHelper.accessor('ho', {
     header: () => (
@@ -149,30 +153,10 @@ const columns = [
   {
     id: 'link',
     maxSize: 30,
-    cell: ({ row }: { row: Row<ApartmentsResponse['content'][number]> }) => {
-      const data = row.original;
+    cell: () => {
       return (
         <div className="text-blue-50">
-          <Drawer.Root>
-            <Drawer.Trigger>
-              <ArrowOutwardIcon />
-            </Drawer.Trigger>
-            <Drawer.Portal>
-              <Drawer.Content>
-                <Drawer.Container>
-                  <PropertyDetail data={data} />
-                </Drawer.Container>
-
-                <VStack className="sticky bottom-[0] left-[0] right-[0] gap-53 bg-lightGray-20 px-40 py-32">
-                  <div className="break-keep text-blue-50">매물을 구매하면 상세한 정보를 확인할 수 있습니다.</div>
-                  <HStack className="gap-8">
-                    <Button onClick={() => row.toggleSelected(true)}>매물 선택하기</Button>
-                    <Button>장바구니에 넣기</Button>
-                  </HStack>
-                </VStack>
-              </Drawer.Content>
-            </Drawer.Portal>
-          </Drawer.Root>
+          <ArrowOutwardIcon />
         </div>
       );
     },
@@ -180,5 +164,58 @@ const columns = [
 ];
 
 export const PropertyList = ({ data }: { data: ApartmentsResponse }) => {
-  return <List columns={columns} data={data.content} />;
+  const [open, setOpen] = useState(false);
+  const [selected, setSelected] = useState<Row<ApartmentsResponse['content'][number]> | null>(null);
+
+  return (
+    <>
+      <List
+        columns={columns}
+        data={data.content}
+        onClickRow={(data) => {
+          setSelected(data);
+          setOpen(true);
+        }}
+      />
+
+      {selected && (
+        <Drawer.Root
+          open={open}
+          onOpenChange={(open) => {
+            if (open) {
+              setTimeout(() => {
+                document.body.style.pointerEvents = '';
+                document.body.style.position = 'static';
+                document.body.classList.add('no-scrollbar');
+              }, 0);
+            }
+          }}
+        >
+          <Drawer.Portal>
+            <Drawer.Content>
+              <Drawer.Close
+                onClick={() => {
+                  setOpen(false);
+                  document.body.classList.remove('no-scrollbar');
+                }}
+              >
+                닫기
+              </Drawer.Close>
+              <Drawer.Container>
+                <PropertyDetail data={selected.original} />
+              </Drawer.Container>
+
+              <VStack className="sticky bottom-[0] left-[0] right-[0] gap-53 bg-lightGray-20 px-40 py-32">
+                <div className="break-keep text-blue-50">매물을 구매하면 상세한 정보를 확인할 수 있습니다.</div>
+                <HStack className="gap-8">
+                  <Button onClick={() => selected.toggleSelected(true)}>매물 선택하기</Button>
+                  <Button>장바구니에 넣기</Button>
+                </HStack>
+              </VStack>
+            </Drawer.Content>
+          </Drawer.Portal>
+        </Drawer.Root>
+      )}
+    </>
+  );
 };
