@@ -8,6 +8,7 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   Row,
+  RowData,
   RowSelectionState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -15,6 +16,18 @@ import { useState } from 'react';
 import { Divider } from '../Divider';
 import { HStack, VStack } from '../Stack';
 import { Pagination } from './Pagination';
+
+import '@tanstack/react-table';
+
+declare module '@tanstack/react-table' {
+  interface ColumnMeta<TData extends RowData, TValue> {
+    size?: string | number;
+    minSize?: string | number;
+    width?: string | number;
+  }
+}
+
+const DEFAULT_COLUMN_WIDTH = '100px';
 
 export const List = <T extends any>({
   columns,
@@ -43,7 +56,7 @@ export const List = <T extends any>({
     <div className="p-2">
       <VStack className="w-full gap-8">
         {table.getHeaderGroups().map((headerGroup) => (
-          <HStack key={headerGroup.id} className="w-full items-center py-8">
+          <HStack key={headerGroup.id} className="h-48 w-full items-center gap-8 py-8">
             <div className="w-70">
               <label className="hstack gap-4">
                 <Checkbox
@@ -57,7 +70,17 @@ export const List = <T extends any>({
               </label>
             </div>
             {headerGroup.headers.map((header) => (
-              <div key={header.id} className="flex-1">
+              <div
+                key={header.id}
+                className="flex-grow overflow-hidden text-ellipsis whitespace-pre-line break-words"
+                {...{
+                  style: {
+                    width: header.column.columnDef.meta?.width || DEFAULT_COLUMN_WIDTH,
+                    flexShrink: header.column.columnDef.meta?.minSize ? 0 : 1,
+                    flexGrow: header.column.columnDef.meta?.size || 1,
+                  },
+                }}
+              >
                 {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
               </div>
             ))}
@@ -68,7 +91,7 @@ export const List = <T extends any>({
           <HStack
             key={row.id}
             className={cn(
-              'w-full items-center rounded-3 bg-lightGray-10 py-16 outline outline-1 outline-deepNeutrals-30 hover:bg-lightGray-30 hover:outline-deepNeutrals-40',
+              'h-48 w-full items-center gap-8 rounded-3 bg-lightGray-10 py-16 outline outline-1 outline-deepNeutrals-30 hover:bg-lightGray-30 hover:outline-deepNeutrals-40',
               row.getIsSelected() && 'outline-blue-50',
               onClickRow && 'cursor-pointer',
             )}
@@ -86,7 +109,17 @@ export const List = <T extends any>({
             </div>
 
             {row.getVisibleCells().map((cell) => (
-              <div key={cell.id} className="flex-1 overflow-hidden text-ellipsis whitespace-nowrap">
+              <div
+                key={cell.id}
+                className="flex-grow overflow-hidden text-ellipsis whitespace-pre-line break-words"
+                {...{
+                  style: {
+                    width: cell.column.columnDef.meta?.width || DEFAULT_COLUMN_WIDTH,
+                    flexShrink: cell.column.columnDef.meta?.minSize ? 0 : 1,
+                    flexGrow: cell.column.columnDef.meta?.size || 1,
+                  },
+                }}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </div>
             ))}

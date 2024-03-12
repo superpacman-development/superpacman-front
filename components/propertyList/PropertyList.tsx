@@ -28,6 +28,9 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    meta: {
+      size: 5,
+    },
   }),
   columnHelper.accessor('dong', {
     header: () => (
@@ -44,6 +47,9 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    meta: {
+      size: 1,
+    },
   }),
   columnHelper.accessor('supplyArea', {
     header: () => (
@@ -60,6 +66,9 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    meta: {
+      size: 2,
+    },
   }),
   columnHelper.accessor('floor', {
     header: () => (
@@ -85,6 +94,9 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    meta: {
+      size: 1,
+    },
   }),
   columnHelper.accessor('hopePrice', {
     header: () => (
@@ -101,6 +113,9 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    meta: {
+      size: 2,
+    },
   }),
   columnHelper.accessor('availableMoveInDate', {
     header: () => (
@@ -126,9 +141,15 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    meta: {
+      size: 2,
+    },
   }),
   columnHelper.accessor('memo', {
     header: () => '특징',
+    meta: {
+      size: 6,
+    },
   }),
   columnHelper.accessor('createDatetime', {
     header: () => (
@@ -145,16 +166,21 @@ const columns = [
         </Floating.Content>
       </Floating.Root>
     ),
+    meta: {
+      size: 2,
+    },
   }),
   {
     id: 'link',
-    maxSize: 30,
     cell: () => {
       return (
         <div className="text-blue-50">
           <ArrowOutwardIcon />
         </div>
       );
+    },
+    meta: {
+      width: 20,
     },
   },
 ];
