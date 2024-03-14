@@ -72,11 +72,11 @@ export const List = <T extends any>({
             {headerGroup.headers.map((header) => (
               <div
                 key={header.id}
-                className="flex-grow overflow-hidden text-ellipsis whitespace-pre-line break-words"
+                className="shrink flex-grow overflow-hidden text-ellipsis whitespace-pre-line break-words"
                 {...{
                   style: {
                     width: header.column.columnDef.meta?.width || DEFAULT_COLUMN_WIDTH,
-                    flexShrink: header.column.columnDef.meta?.minSize ? 0 : 1,
+                    minWidth: header.column.columnDef.meta?.minSize || 'auto',
                     flexGrow: header.column.columnDef.meta?.size || 1,
                   },
                 }}
@@ -111,11 +111,11 @@ export const List = <T extends any>({
             {row.getVisibleCells().map((cell) => (
               <div
                 key={cell.id}
-                className="flex-grow overflow-hidden text-ellipsis whitespace-pre-line break-words"
+                className="min-w-100 line-clamp-2 shrink flex-grow overflow-hidden text-ellipsis whitespace-pre-line break-words"
                 {...{
                   style: {
                     width: cell.column.columnDef.meta?.width || DEFAULT_COLUMN_WIDTH,
-                    flexShrink: cell.column.columnDef.meta?.minSize ? 0 : 1,
+                    flexShrink: cell.column.columnDef.meta?.minSize || 'auto',
                     flexGrow: cell.column.columnDef.meta?.size || 1,
                   },
                 }}
