@@ -13,6 +13,8 @@ export default async function List({
     littleCity?: string | string[];
     contractTypes?: string | string[];
     sort?: string;
+    page?: string;
+    pageSize?: string;
   };
 }) {
   const bigCities = await getAddress({ addressType: 'BIG_CITY' });
@@ -23,8 +25,8 @@ export default async function List({
     ? await getAddress({ addressType: 'LITTLE_CITY', middleCityAddressCode: searchParams.middleCity })
     : [];
   const apartments = await getApartments({
-    page: 0,
-    size: 10,
+    page: searchParams.page ? +searchParams.page - 1 : 0,
+    size: searchParams.pageSize ? +searchParams.pageSize : 15,
     sort: searchParams.sort ? [searchParams.sort] : [],
     dongCodes: searchParams?.littleCity ? searchParams.littleCity.toString() : undefined,
     contractTypes: searchParams?.contractTypes ? searchParams.contractTypes.toString() : undefined,

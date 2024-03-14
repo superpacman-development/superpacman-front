@@ -4,21 +4,20 @@ import { cn } from '@/utils/cn';
 import { HStack } from '@components/Stack';
 import ArrowLeftIcon from '~/assets/arrow-left.svg';
 
+const PAGE_COUNT_SIZE = 10;
+
 export const Pagination = ({
-  total,
+  totalPages,
   currentPage,
-  pageSize,
   setCurrentPage,
 }: {
-  total: number;
+  totalPages: number;
   currentPage: number;
-  pageSize: number;
   setCurrentPage: (currentPage: number) => void;
 }) => {
-  const numPages = Math.ceil(total / pageSize);
-  const currentPageArray = Array(numPages)
-    .fill(0)
-    .map((_, i) => i + 1);
+  const start = Math.floor(currentPage / PAGE_COUNT_SIZE) * PAGE_COUNT_SIZE;
+  const end = start + PAGE_COUNT_SIZE < totalPages ? start + PAGE_COUNT_SIZE : totalPages;
+  const currentPageArray = Array.from({ length: end - start }, (_, i) => start + 1 + i);
 
   return (
     <HStack>

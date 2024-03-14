@@ -3,13 +3,12 @@
 import { cn } from '@/utils/cn';
 import { Checkbox } from '@components/Checkbox';
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   Row,
   RowData,
   RowSelectionState,
+  TableOptions,
   useReactTable,
 } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -30,23 +29,19 @@ declare module '@tanstack/react-table' {
 const DEFAULT_COLUMN_WIDTH = '100px';
 
 export const List = <T extends any>({
-  columns,
-  data,
   onClickRow,
+  ...options
 }: {
-  columns: ColumnDef<T, any>[];
-  data: T[];
   onClickRow?: (row: Row<T>) => void;
-}) => {
+} & Omit<TableOptions<T>, 'getCoreRowModel'>) => {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const table = useReactTable({
-    data,
-    columns,
+    ...options,
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
-    getPaginationRowModel: getPaginationRowModel(),
     state: {
+      ...options.state,
       rowSelection,
     },
     // getRowId: row => row.id,
@@ -129,14 +124,28 @@ export const List = <T extends any>({
 
       <HStack className="mt-50 justify-center">
         <Pagination
-          total={1}
-          pageSize={table.getState().pagination.pageSize}
+          totalPages={table.getPageCount()}
           currentPage={table.getState().pagination.pageIndex + 1}
           setCurrentPage={table.setPageIndex}
         />
       </HStack>
 
-      <div>{table.getRowModel().rows.length}개</div>
+      <HStack className="gap-12">
+        <select
+          value={table.getState().pagination.pageSize}
+          onChange={(e) => {
+            table.setPageSize(Number(e.target.value));
+          }}
+        >
+          {[5, 10, 15, 20, 25].map((pageSize) => (
+            <option key={pageSize} value={pageSize}>
+              {pageSize}개씩 보기
+            </option>
+          ))}
+        </select>
+
+        <div>전체 매물 개수 {table.getRowCount()}</div>
+      </HStack>
     </div>
   );
 };

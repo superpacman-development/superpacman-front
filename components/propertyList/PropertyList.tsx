@@ -7,7 +7,9 @@ import { Drawer } from '@components/Drawer';
 import { Floating, List } from '@components/List';
 import { HStack, VStack } from '@components/Stack';
 import { Row, createColumnHelper } from '@tanstack/table-core';
-import { useState } from 'react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+
+import { useEffect, useState } from 'react';
 import ArrowOutwardIcon from '~/assets/arrow-outward.svg';
 
 const columnHelper = createColumnHelper<Property>();
@@ -186,9 +188,17 @@ const columns = [
 ];
 
 export const PropertyList = ({ data }: { data: ApartmentsResponse }) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Row<Property> | null>(null);
   const properties = data.content.map((data) => new Property(data));
+  const [pagination, setPagination] = useState({
+    pageIndex: data.pageable.pageNumber,
+    pageSize: data.pageable.pageSize,
+  });
 
   const handleClickRow = (data: Row<Property>) => {
     setSelected(data);
@@ -203,9 +213,32 @@ export const PropertyList = ({ data }: { data: ApartmentsResponse }) => {
     }, 0);
   };
 
+  useEffect(() => {
+    const search = new URLSearchParams(searchParams);
+    const initialPage = search.get('page') || 0;
+    const initialPageSize = search.get('pageSize') || 15;
+
+    if (initialPage !== pagination.pageIndex) {
+      search.set('page', (pagination.pageIndex + 1).toString());
+    }
+    if (initialPageSize !== pagination.pageSize) {
+      search.set('pageSize', pagination.pageSize.toString());
+    }
+
+    router.replace(`${pathname}?${search.toString()}`);
+  }, [pagination]);
+
   return (
     <>
-      <List columns={columns} data={properties} onClickRow={handleClickRow} />
+      <List
+        columns={columns}
+        data={properties}
+        onClickRow={handleClickRow}
+        state={{ pagination: pagination }}
+        manualPagination
+        rowCount={data.totalElements}
+        onPaginationChange={setPagination}
+      />
 
       {selected && (
         <Drawer.Root open={open} onOpenChange={setOpen} modal={false} dismissible={false}>
